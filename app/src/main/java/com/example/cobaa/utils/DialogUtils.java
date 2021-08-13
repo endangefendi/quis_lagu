@@ -1,4 +1,4 @@
-package com.fend.corp.shippingcharges.utils;
+package com.example.cobaa.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,8 +17,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
 
-import com.fend.corp.shippingcharges.R;
-
+import com.example.cobaa.R;
 
 public class DialogUtils {
 
@@ -52,7 +51,7 @@ public class DialogUtils {
 
     // dialog info
     public Dialog buildDialogInfo(String title, String content, String bt_text_pos, @DrawableRes int icon, final CallbackDialog callback) {
-        final Dialog dialog = buildDialogView(R.layout.dialog_info);
+        final Dialog dialog = buildDialogView(R.layout.dialog_info_warning);
 
         ((TextView) dialog.findViewById(R.id.title)).setText(title);
         ((TextView) dialog.findViewById(R.id.content)).setText(content);

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Quiz lagu</string>
+
+    <!--dialog no internet-->
+    <string name="title_no_internet">No Internet Connection</string>
+    <string name="msg_no_internet">Please check your Internet connection and try again</string>
+    <string name="TRY_AGAIN">TRY AGAIN</string>
+    <string name="CLOSE">CLOSE</string>
+    <string name="GOT_IT">GOT IT</string>
 </resources>

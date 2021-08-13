@@ -14,8 +14,8 @@ public class StartGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
         Button btnMap = (Button) findViewById(R.id.btnMap);
         Button btnRandom = (Button) findViewById(R.id.btnRandom);
 

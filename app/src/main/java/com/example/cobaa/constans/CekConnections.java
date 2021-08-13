@@ -1,4 +1,4 @@
-package com.fend.corp.shippingcharges.constans;
+package com.example.cobaa.constans;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
