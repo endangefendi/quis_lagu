@@ -17,8 +17,6 @@ public class IntroPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getSupportActionBar().hide();
         Button btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(IntroPageActivity.this, StartGameActivity.class);

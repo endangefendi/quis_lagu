@@ -126,8 +126,6 @@ public class TestActivity extends AppCompatActivity {
             mQuestions = new QuestionMap(daerah);
             mqQuestionsLength = mQuestions.mQuestions.length;
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
         btnStart.setVisibility(View.VISIBLE);
         btnStop.setVisibility(View.GONE);
         mediaplayer = new MediaPlayer();

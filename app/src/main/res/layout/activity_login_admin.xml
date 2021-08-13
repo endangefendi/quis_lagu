@@ -22,9 +22,9 @@
         android:layout_marginTop="@dimen/_51sdp"
         android:gravity="center">
         <TextView
+            android:fontFamily="@font/quicksand_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
             android:textSize="@dimen/_15sdp"
             android:text="@string/app_name"/>
 
@@ -37,9 +37,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
             android:textSize="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:textColor="@android:color/black"
             android:text="Login Admin"/>
     </LinearLayout>
 
@@ -60,6 +60,7 @@
             android:inputType="textEmailAddress"
             android:hint="Username"
             android:singleLine="true"
+            android:fontFamily="@font/quicksand_reguler"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingRight="@dimen/_10sdp" />
 
@@ -103,10 +104,11 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="#FFF"
             android:textStyle="bold"
-            android:background="@drawable/bg_btn_login"
+            android:background="@drawable/bg_button"
             android:text="MASUK"
+            android:fontFamily="@font/quicksand_reguler"
             android:visibility="visible"/>
 
         <ProgressBar

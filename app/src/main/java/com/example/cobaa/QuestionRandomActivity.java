@@ -118,8 +118,8 @@ public class QuestionRandomActivity extends AppCompatActivity {
     }
 
     void setup() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
         btnStart.setVisibility(View.VISIBLE);
         btnStop.setVisibility(View.GONE);
         mediaplayer = new MediaPlayer();

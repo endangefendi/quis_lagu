@@ -84,8 +84,8 @@ public class MapActivity extends AppCompatActivity {
     }
 
     void setup() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
     }

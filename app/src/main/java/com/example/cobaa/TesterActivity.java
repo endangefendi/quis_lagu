@@ -11,7 +11,6 @@ public class TesterActivity extends AppCompatActivity implements SeekBar.OnSeekB
     private SeekBar seekBar;
     private TextView Persentase;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
