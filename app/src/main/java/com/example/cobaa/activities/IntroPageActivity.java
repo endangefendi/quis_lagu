@@ -29,6 +29,7 @@ public class IntroPageActivity extends AppCompatActivity {
         btn_login.setOnClickListener(v -> {
             Intent intent = new Intent(IntroPageActivity.this, LoginAdminActivity.class);
             startActivity(intent);
+            finish();
         });
 
 

@@ -1,6 +1,5 @@
 package com.example.cobaa.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -13,16 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.cobaa.R;
+import com.example.cobaa.constans.DataPreference;
 import com.example.cobaa.utils.DialogUtils;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.cobaa.constans.CekConnections.isConnectingToInternet;
@@ -33,7 +30,8 @@ public class LoginAdminActivity extends AppCompatActivity {
 
     private EditText edUsername, edPassword;
     private boolean isVisiblePassword = true;
-
+    private ProgressBar progress_bar;
+    private Button btn_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,28 +51,38 @@ public class LoginAdminActivity extends AppCompatActivity {
             edPassword.setSelection(edPassword.getText().toString().length());
         });
 
-        Button login = findViewById(R.id.btn_login);
-        login.setOnClickListener(view ->
-//                login(edUsername.getText().toString().trim(), edPassword.getText().toString().trim())
+        progress_bar = findViewById(R.id.progress_bar);
+        progress_bar.setVisibility(View.GONE);
+        btn_login = findViewById(R.id.btn_login);
+        btn_login.setOnClickListener(view ->
                 validateLogin()
         );
     }
 
     private void validateLogin() {
+        progress_bar.setVisibility(View.VISIBLE);
+        btn_login.setVisibility(View.GONE);
+
         String username = edUsername.getText().toString();
         String password = edPassword.getText().toString();
 
-//        if(username.isEmpty() && password.isEmpty()){
-//            Snackbar.make(edUsername, "Username and Password is empty", Snackbar.LENGTH_SHORT).show();
-//        } else
+        if(username.isEmpty() && password.isEmpty()){
+            progress_bar.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+            Snackbar.make(edUsername, "Username and Password is empty", Snackbar.LENGTH_SHORT).show();
+        } else
 
         if(username.isEmpty()){
+            progress_bar.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
             Snackbar.make(edUsername, "Username is empty", Snackbar.LENGTH_SHORT).show();
         }else
 
-//        if(password.isEmpty()){
-//            Snackbar.make(edUsername, "Password is empty", Snackbar.LENGTH_SHORT).show();
-//        }else
+        if(password.isEmpty()){
+            Snackbar.make(edUsername, "Password is empty", Snackbar.LENGTH_SHORT).show();
+            progress_bar.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+        }else
 
         login(username, password);
     }
@@ -95,21 +103,23 @@ public class LoginAdminActivity extends AppCompatActivity {
                 FirebaseUser user = mAuth.getCurrentUser();
                 assert user != null;
                 Log.e(TAG, "signInWithEmailAndPassword: "+user.getUid());
+
+                progress_bar.setVisibility(View.GONE);
+                btn_login.setVisibility(View.VISIBLE);
+
+                //save account
+                DataPreference.SAVE_ADMIN(this,user.getUid(), Username, Password,"");
+
                 Intent intent = new Intent(this, DashboarAdminActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 // If sign in fails, display a message to the user.
                 Log.e(TAG, "signInWithEmailAndPassword: failure", task.getException());
-            }
-        }).addOnFailureListener(e -> {
-            if( e instanceof FirebaseAuthInvalidUserException){
-                Toast.makeText(LoginAdminActivity.this, "This User Not Found , Create A New Account", Toast.LENGTH_SHORT).show();
-            }
-            if( e instanceof FirebaseAuthInvalidCredentialsException){
-                Toast.makeText(LoginAdminActivity.this, "The Password Is Invalid, Please Try Valid Password", Toast.LENGTH_SHORT).show();
-            }
-            if(e instanceof FirebaseNetworkException){
-                Toast.makeText(LoginAdminActivity.this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
+                Snackbar.make(edUsername, "Login failure", Snackbar.LENGTH_SHORT).show();
+                progress_bar.setVisibility(View.GONE);
+                btn_login.setVisibility(View.VISIBLE);
+
             }
         });
     }
