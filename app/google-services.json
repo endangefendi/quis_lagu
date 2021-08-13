@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "508519244384",
+    "project_id": "quis-lagu",
+    "storage_bucket": "quis-lagu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508519244384:android:28137f6531be9653c0d905",
+        "android_client_info": {
+          "package_name": "com.example.cobaa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508519244384-18smludnn5i81mf2epf9rf6c7utni5ta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cobaa",
+            "certificate_hash": "92f65bfa69822a367ea57ed0dd9707e2db1685f5"
+          }
+        },
+        {
+          "client_id": "508519244384-dcildfi5fioo2641p7d1jhgdan3uhkga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPdindotnEY3CfL5EAKk2rjwAVcq8woSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508519244384-dcildfi5fioo2641p7d1jhgdan3uhkga.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

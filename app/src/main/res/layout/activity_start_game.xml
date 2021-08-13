@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorWhite"
+    android:gravity="center"
+    android:padding="@dimen/_20sdp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        android:text="Quiz Game Lagu Nusantara"
+        android:textSize="@dimen/_20sdp" />
+
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_logo"
+        android:layout_marginBottom="@dimen/_50sdp"/>
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_button"
+        android:text="Quiz Game Sesuai Map"
+        android:textColor="#FFF"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+    <Button
+        android:id="@+id/btnRandom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_button"
+        android:text="Quiz Game Random"
+        android:textColor="#FFF" />
+</LinearLayout>
