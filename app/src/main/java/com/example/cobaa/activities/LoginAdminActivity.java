@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.cobaa.R;
 import com.example.cobaa.constans.DataPreference;
@@ -155,4 +154,11 @@ public class LoginAdminActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(getApplicationContext(), IntroPageActivity.class);
+        startActivity(i);
+        finish();
+    }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cobaa">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,48 +16,53 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_icon_foreground"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-
-        <activity android:name=".activities.DashboarAdminActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.LoginAdminActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".QuestionRandomActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".StartGameActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".activities.IntroPageActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".TestActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".MapActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".TesterActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".QuestionActivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".activities.SplashScreenAcitivity"
-            android:theme="@style/TopRed"
-            android:screenOrientation="portrait">
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.MasterBannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed"/>
+        <activity android:name=".activities.MasterDataSoalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".activities.DashboarAdminActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".activities.LoginAdminActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".QuestionRandomActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".StartGameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".activities.IntroPageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".TestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".MapActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".TesterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".QuestionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
+            android:name=".activities.SplashScreenAcitivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
