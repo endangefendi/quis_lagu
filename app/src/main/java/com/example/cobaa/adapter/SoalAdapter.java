@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
-import com.example.cobaa.activities.MasterDataSoalActivity;
 import com.example.cobaa.models.SoalModel;
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
     private final Context context;
     private final ArrayList<SoalModel> list;
 
-    private MediaPlayer mp;
+    private final MediaPlayer mp;
     private boolean isPlaying;
 
     public SoalAdapter(Context context, ArrayList<SoalModel> list, MediaPlayer mp) {
@@ -62,43 +61,29 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final SoalAdapter.ViewHolder holder, final int position) {
         holder.tv_question.setText(list.get(position).getSoal());
         holder.nomor.setText(String.valueOf(position + 1));
-        holder.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (list.get(position).getLagu().contains("https://firebasestorage.googleapis.com")) {
-                    if (!isPlaying) {
-                        play_audio(list.get(position).getLagu(), holder);
-                        isPlaying = true;
-                        holder.btnStart.setVisibility(View.GONE);
-                        holder.btnStop.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Toast.makeText(context, "Opsss.... Lagu tidak dapat diputar", Toast.LENGTH_LONG).show();
+        holder.btnStart.setOnClickListener(view -> {
+            if (list.get(position).getLagu().contains("https://firebasestorage.googleapis.com")) {
+                if (!isPlaying) {
+                    play_audio(list.get(position).getLagu(), holder);
+                    isPlaying = true;
+                    holder.btnStart.setVisibility(View.GONE);
+                    holder.btnStop.setVisibility(View.VISIBLE);
                 }
+            } else {
+                Toast.makeText(context, "Opsss.... Lagu tidak dapat diputar", Toast.LENGTH_LONG).show();
             }
         });
 
-        holder.btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isPlaying) {
-                    mp.stop();
-                    mp.reset();
-                    isPlaying = false;
-                    holder.btnStart.setVisibility(View.VISIBLE);
-                    holder.btnStop.setVisibility(View.GONE);
-                }
+        holder.btnStop.setOnClickListener(view -> {
+            if (isPlaying) {
+                mp.stop();
+                mp.reset();
+                isPlaying = false;
+                holder.btnStart.setVisibility(View.VISIBLE);
+                holder.btnStop.setVisibility(View.GONE);
             }
         });
 
-
-//        holder.btn_menu.setOnClickListener(view -> {
-//            Bundle bundle= new Bundle();
-//            Intent intent = new Intent(holder.itemView.getContext(), MasterDataSoalActivity.class);
-//            bundle.putString("key_menu", list.get(position).getJawaban());
-//            intent.putExtras(bundle);
-//            context.startActivity(intent);
-//        });
     }
 
     private void play_audio(final String audio, final ViewHolder holder) {
@@ -109,22 +94,13 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
         }
 
         mp.prepareAsync();
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-//                holder.btnStart.setImageResource(R.drawable.ic_stop);
-            }
-        });
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                isPlaying = false;
-                holder.btnStart.setVisibility(View.VISIBLE);
-                holder.btnStop.setVisibility(View.GONE);
-            }
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setOnCompletionListener(mediaPlayer -> {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            isPlaying = false;
+            holder.btnStart.setVisibility(View.VISIBLE);
+            holder.btnStop.setVisibility(View.GONE);
         });
     }
 

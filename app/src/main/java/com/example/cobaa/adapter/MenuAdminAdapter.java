@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cobaa.R;
 import com.example.cobaa.activities.DashboarAdminActivity;
 import com.example.cobaa.activities.MasterBannerActivity;
+import com.example.cobaa.activities.MasterDataPulauActivity;
 import com.example.cobaa.activities.MasterDataSoalActivity;
 import com.example.cobaa.models.MenuModel;
 
@@ -51,7 +52,13 @@ public class MenuAdminAdapter extends  RecyclerView.Adapter<MenuAdminAdapter.Vie
         holder.btn_menu.setText(list.get(position).getName_menu());
 
         holder.btn_menu.setOnClickListener(view -> {
-            if (list.get(position).getName_menu().toLowerCase().contains("banner")){
+            if (list.get(position).getName_menu().toLowerCase().contains("data pulau")){
+                Bundle bundle= new Bundle();
+                Intent intent = new Intent(holder.itemView.getContext(), MasterDataPulauActivity.class);
+                bundle.putString("key_menu", list.get(position).getName_menu());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }else if (list.get(position).getName_menu().toLowerCase().contains("banner")){
                 Bundle bundle= new Bundle();
                 Intent intent = new Intent(holder.itemView.getContext(), MasterBannerActivity.class);
                 bundle.putString("key_menu", list.get(position).getName_menu());

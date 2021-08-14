@@ -69,34 +69,17 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:src="@drawable/ic_slide1"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
                     <Button
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/edit"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="@dimen/_10sdp"
                         android:layout_margin="@dimen/_8sdp"
-                        android:layout_weight="1"
-                        android:text="edit"
-                        android:textColor="@android:color/white"
-                        android:drawableEnd="@drawable/ic_baseline_edit"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:background="@drawable/bg_button"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:id="@+id/hapus"
-                        android:layout_weight="1"
+                        android:id="@+id/btn_hapus"
                         android:textColor="@android:color/white"
                         android:drawableEnd="@drawable/ic_delete"
                         android:paddingEnd="@dimen/_10sdp"
@@ -104,8 +87,7 @@
                         android:text="hapus"
                         android:background="@drawable/bg_button"/>
 
-                </LinearLayout>
-            </LinearLayout>
+                </RelativeLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

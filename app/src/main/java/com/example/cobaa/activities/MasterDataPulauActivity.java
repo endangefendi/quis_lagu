@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.example.cobaa.R;
 import com.example.cobaa.adapter.BannerAdapter;
+import com.example.cobaa.adapter.PulauAdapter;
 import com.example.cobaa.models.BannerModel;
+import com.example.cobaa.models.PulauModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,36 +24,35 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MasterBannerActivity extends AppCompatActivity {
-
+public class MasterDataPulauActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private ArrayList<BannerModel> list;
-    private BannerAdapter adapter;
+    private ArrayList<PulauModel> list;
+    private PulauAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_master_banner);
+        setContentView(R.layout.activity_add_pulau);
+
         ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> finish());
         ImageView iv_add = findViewById(R.id.iv_add);
-        iv_add.setOnClickListener(v -> startActivity(new Intent(this, AddBannerActivity.class)));
-
+        iv_add.setOnClickListener(v -> startActivity(new Intent(this, AddPulauActivity.class)));
         recyclerView = findViewById(R.id.list_menu_item);
         list = new ArrayList<>();
-        adapter = new BannerAdapter(MasterBannerActivity.this, list);
+        adapter = new PulauAdapter(MasterDataPulauActivity.this, list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
-                MasterBannerActivity.this, LinearLayoutManager.VERTICAL, false);
+                MasterDataPulauActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("banner");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("master pulau");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
-                    BannerModel p = dataSnapshot1.getValue(BannerModel.class);
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    PulauModel p = dataSnapshot1.getValue(PulauModel.class);
                     list.add(p);
                 }
 
@@ -60,8 +61,9 @@ public class MasterBannerActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MasterBannerActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MasterDataPulauActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
