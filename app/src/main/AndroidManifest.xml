@@ -18,18 +18,21 @@
         android:roundIcon="@mipmap/ic_icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.TambahSoalRandomActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
         <activity
             android:name=".activities.MasterDataPulauActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TopRed"/>
+            android:theme="@style/TopRed" />
         <activity
             android:name=".activities.AddPulauActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TopRed"/>
+            android:theme="@style/TopRed" />
         <activity
             android:name=".activities.AddBannerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TopRed"/>
+            android:theme="@style/TopRed" />
         <activity
             android:name=".activities.MasterBannerActivity"
             android:screenOrientation="portrait"

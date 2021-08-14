@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -59,6 +60,17 @@ public class MasterDataSoalActivity extends AppCompatActivity {
             jenis_soal = "random";
         }
 
+        ImageView add = findViewById(R.id.iv_add);
+        add.setOnClickListener(view -> {
+            if (jenis_soal == "random"){
+                startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalRandomActivity.class));
+            }
+            else {
+//                startActivity(new Intent(MasterDataSoalActivity.this, MAPTambahSoalctivity.class));
+                Toast.makeText(MasterDataSoalActivity.this, "KLIK Tambah Soal Map", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         recyclerView = findViewById(R.id.list_menu_item);
         list = new ArrayList<>();
