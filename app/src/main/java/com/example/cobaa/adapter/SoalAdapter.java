@@ -121,7 +121,9 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
             public void onCompletion(MediaPlayer mediaPlayer) {
                 mediaPlayer.stop();
                 mediaPlayer.reset();
-//                holder.btnStart.setImageResource(R.drawable.ic_play_button);
+                isPlaying = false;
+                holder.btnStart.setVisibility(View.VISIBLE);
+                holder.btnStop.setVisibility(View.GONE);
             }
         });
     }
