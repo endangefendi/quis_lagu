@@ -74,6 +74,6 @@
         android:layout_height="@dimen/_35sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_button"
-        android:text="Start Game"
+        android:text="Memulai Permainan"
         android:textColor="#FFF" />
 </RelativeLayout>

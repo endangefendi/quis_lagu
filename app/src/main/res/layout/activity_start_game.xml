@@ -29,7 +29,7 @@
         android:layout_height="@dimen/_35sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_button"
-        android:text="Quiz Game Sesuai Map"
+        android:text="QUIZ GAME TIDAK ACAK"
         android:textColor="#FFF"
         android:layout_marginBottom="@dimen/_10sdp"/>
     <Button
@@ -38,6 +38,6 @@
         android:layout_height="@dimen/_35sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_button"
-        android:text="Quiz Game Random"
+        android:text="QUIZ GAME ACAK"
         android:textColor="#FFF" />
 </LinearLayout>
