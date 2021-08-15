@@ -296,6 +296,11 @@ public class TambahSoalMapActivity extends AppCompatActivity {
             return;
         }
 
+        if(daerah.isEmpty()){
+            txt_daerah.setError( "Asal daerah 4 tidak boleh kosong");
+            return;
+        }
+
         saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4, daerah);
     }
 

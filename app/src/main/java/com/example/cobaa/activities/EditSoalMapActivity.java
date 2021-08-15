@@ -2,46 +2,45 @@ package com.example.cobaa.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cobaa.R;
-import com.example.cobaa.models.SoalModel;
+import com.example.cobaa.adapter.DaerahAdapter;
+import com.example.cobaa.models.PulauModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditSoalMapActivity extends AppCompatActivity {
+    private final String TAG = "EditSoalMapActivity";
     LinearLayout frame_edit;
     ImageView btn_edit;
 
     private ProgressDialog progressDialog;
 
-    EditText txt_soal, txt_jawaban1, txt_jawaban2, txt_jawaban3, txt_jawaban4, txt_jawaban_benar;
-
+    EditText txt_soal, txt_jawaban1, txt_jawaban2, txt_jawaban3, txt_jawaban4, txt_jawaban_benar, txt_daerah;
+    ImageView _daerah;
     ImageView btnStart ;
     ImageView btnStop;
     private MediaPlayer mp;
@@ -63,6 +62,9 @@ public class EditSoalMapActivity extends AppCompatActivity {
         txt_jawaban3 = findViewById(R.id.txt_jawaban3);
         txt_jawaban4 = findViewById(R.id.txt_jawaban4);
         txt_jawaban_benar = findViewById(R.id.txt_jawaban_benar);
+        txt_daerah = findViewById(R.id.txt_daerah);
+        _daerah = findViewById(R.id._daerah);
+        _daerah.setOnClickListener(v -> popupdaerah(txt_daerah));
 
         Button btn_save = findViewById(R.id.btn_add);
         btn_save.setOnClickListener(v -> validasi());
@@ -103,6 +105,73 @@ public class EditSoalMapActivity extends AppCompatActivity {
 
     }
 
+    private final List<PulauModel> listDaerah = new ArrayList<>();
+    private ListView mListView;
+    DaerahAdapter adapter_daerah;
+    private void popupdaerah (final EditText editText) {
+        AlertDialog.Builder alert;
+        AlertDialog ad;
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        assert inflater != null;
+        View alertLayout = inflater.inflate(R.layout.dialog_daerah, null);
+
+        alert = new AlertDialog.Builder(this);
+        alert.setTitle("Pilih Daerah ");
+        alert.setIcon(R.drawable.ic_logo);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+
+        ad = alert.show();
+
+        mListView = alertLayout.findViewById(R.id.listItem);
+
+        listDaerah.clear();
+        adapter_daerah = new DaerahAdapter(this, listDaerah);
+
+        mListView.setClickable(true);
+
+        mListView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Object o = mListView.getItemAtPosition(i);
+            PulauModel cn = (PulauModel) o;
+            ad.dismiss();
+            editText.setError(null);
+            editText.setText(cn.getName_pulau());
+        });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sedang menyiapkan..");
+        progressDialog.show();
+
+        getDaerah();
+
+    }
+
+    private void getDaerah() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("master pulau");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listDaerah.clear();
+                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
+                    PulauModel p = dataSnapshot1.getValue(PulauModel.class);
+                    listDaerah.add(p);
+                }
+                mListView.setAdapter(adapter_daerah);
+                adapter_daerah.setList(listDaerah);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "databaseError : " + databaseError.getMessage());
+
+                Toast.makeText(EditSoalMapActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void edit() {
         if (isPlaying) {
             mp.stop();
@@ -121,6 +190,8 @@ public class EditSoalMapActivity extends AppCompatActivity {
         txt_jawaban2.setEnabled(true);
         txt_jawaban3.setEnabled(true);
         txt_jawaban4.setEnabled(true);
+        _daerah.setClickable(true);
+
     }
 
     private void disable() {
@@ -159,6 +230,8 @@ public class EditSoalMapActivity extends AppCompatActivity {
             txt_jawaban2.setText(bun.getString("pilihan2"));
             txt_jawaban3.setText(bun.getString("pilihan3"));
             txt_jawaban4.setText(bun.getString("pilihan4"));
+            txt_daerah.setText(bun.getString("map"));
+            _daerah.setClickable(false);
         }
     }
 
@@ -169,6 +242,7 @@ public class EditSoalMapActivity extends AppCompatActivity {
         String jawaban2 = txt_jawaban2.getText().toString().trim();
         String jawaban3 = txt_jawaban3.getText().toString().trim();
         String jawaban4 = txt_jawaban4.getText().toString().trim();
+        String daerah = txt_daerah.getText().toString().trim();
 
         if(soal.isEmpty() && jawaban_benar.isEmpty() && jawaban1.isEmpty() && jawaban2.isEmpty() && jawaban3.isEmpty()
                 && jawaban4.isEmpty()){
@@ -203,10 +277,15 @@ public class EditSoalMapActivity extends AppCompatActivity {
             return;
         }
 
-        saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4);
+        if(daerah.isEmpty()){
+            txt_daerah.setError( "Asal daerah tidak boleh kosong");
+            return;
+        }
+
+        saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4, daerah);
     }
 
-    private void saving(String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4) {
+    private void saving(String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4, String daerah) {
         if (id != null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Saving Data");
@@ -222,6 +301,7 @@ public class EditSoalMapActivity extends AppCompatActivity {
                         ref.child(id).child("pilihan2").setValue(jawaban2);
                         ref.child(id).child("pilihan3").setValue(jawaban3);
                         ref.child(id).child("pilihan4").setValue(jawaban4);
+                        ref.child(id).child("map").setValue(daerah);
 
                         progressDialog.dismiss();
                         Toast.makeText(EditSoalMapActivity.this,

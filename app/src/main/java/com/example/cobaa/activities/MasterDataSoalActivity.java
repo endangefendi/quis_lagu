@@ -42,7 +42,7 @@ public class MasterDataSoalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_master_data_soal);
 
         ImageView ivBack = findViewById(R.id.iv_back);
-        ivBack.setOnClickListener(v -> finish());
+        ivBack.setOnClickListener(v -> onBackPressed());
 
         TextView tv_title = findViewById(R.id.tv_title);
 
@@ -52,18 +52,21 @@ public class MasterDataSoalActivity extends AppCompatActivity {
             tv_title.setText(key_soal);
         }
 
-        if (key_soal.toLowerCase().contains("map")){
+        if (key_soal.toLowerCase().contains("map")) {
             jenis_soal = "map";
-        }else if (key_soal.toLowerCase().contains("random")){
+        } else if (key_soal.toLowerCase().contains("random")) {
             jenis_soal = "random";
         }
 
         ImageView add = findViewById(R.id.iv_add);
         add.setOnClickListener(view -> {
-            if (jenis_soal == "random"){
+            if (jenis_soal == "random") {
+                mp.stop();
+                mp.reset();
                 startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalRandomActivity.class));
-            }
-            else {
+            } else {
+                mp.stop();
+                mp.reset();
                 startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalMapActivity.class));
 
             }
@@ -84,7 +87,7 @@ public class MasterDataSoalActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     SoalModel p = dataSnapshot1.getValue(SoalModel.class);
                     list.add(p);
                 }
@@ -101,6 +104,18 @@ public class MasterDataSoalActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        mp.stop();
+        mp.reset();
+        finish();
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
 
 }
