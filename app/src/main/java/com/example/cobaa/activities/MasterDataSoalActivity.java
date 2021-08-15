@@ -56,9 +56,9 @@ public class MasterDataSoalActivity extends AppCompatActivity {
             tv_title.setText(key_soal);
         }
 
-        if (key_soal.toLowerCase().contains("map")) {
+        if (key_soal.toLowerCase().contains("tidak acak")) {
             jenis_soal = "map";
-        } else if (key_soal.toLowerCase().contains("random")) {
+        } else if (key_soal.toLowerCase().contains("acak")) {
             jenis_soal = "random";
         }
 
@@ -100,13 +100,15 @@ public class MasterDataSoalActivity extends AppCompatActivity {
                 if (list.size()<=0){
                     no_item.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-                }else
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
                     no_item.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MasterDataSoalActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MasterDataSoalActivity.this, "Opsss.... Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
 

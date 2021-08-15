@@ -69,7 +69,7 @@ public class DashboarAdminActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "databaseError : " + databaseError.getMessage());
 
-                Toast.makeText(DashboarAdminActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashboarAdminActivity.this, "Opsss.... Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
     }

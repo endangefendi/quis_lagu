@@ -1,10 +1,14 @@
 package com.example.cobaa.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +32,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TambahSoalRandomActivity extends AppCompatActivity {
 
@@ -46,6 +52,9 @@ public class TambahSoalRandomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_soal_random);
+
+        checkAndRequestPermissions();
+
         name_file = findViewById(R.id.name_file);
         if (name_file.getText().toString().trim().equalsIgnoreCase("")) {
             name_file.setVisibility(View.GONE);
@@ -78,7 +87,7 @@ public class TambahSoalRandomActivity extends AppCompatActivity {
 
     private void showFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/mp3");
+        intent.setType("audio/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         try {
@@ -87,47 +96,9 @@ public class TambahSoalRandomActivity extends AppCompatActivity {
                     0);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Please install a File Manager.",
+            Toast.makeText(this, "Silahkan install File Manager.",
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 0:
-                if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
-                    Uri uri = data.getData();
-                    Log.e("", "File Uri: " + uri.toString());
-                    // Get the path
-                    try {
-                        path = getPath(this, uri);
-                        Log.e("onActivityResult", "File Path: " + path);
-                        String filename = path.substring(path.lastIndexOf("/") + 1);
-                        String extension = path.substring(path.lastIndexOf(".") + 1);
-                        if (!extension.equalsIgnoreCase("mp3")) {
-                            ket.setText("File tidak didukung");
-                            ket.setTextColor(getResources().getColor(R.color.colorPrimary));
-                            name_file.setText("FIle Name: " + filename);
-                            name_file.setVisibility(View.VISIBLE);
-                        } else {
-                            ket.setText("Input audio");
-                            ket.setTextColor(getResources().getColor(R.color.abu));
-                            name_file.setText("FIle Name: " + filename);
-                            name_file.setVisibility(View.VISIBLE);
-                        }
-
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
@@ -216,39 +187,145 @@ public class TambahSoalRandomActivity extends AppCompatActivity {
         saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4);
     }
 
-    private void saving( String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4) {
-        if (path != null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Saving Data");
-            progressDialog.show();
-            Uri file = Uri.fromFile(new File(path));
-            final StorageReference storageReferences = storageReference.child("lagu/" + file.getLastPathSegment());
-            storageReferences.putFile(file)
-                    .addOnSuccessListener(taskSnapshot -> storageReferences.getDownloadUrl().addOnSuccessListener(uri -> {
-                        progressDialog.dismiss();
-                        String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
-                        SoalModel upload = new SoalModel(id, jawaban_benar, "random", String.valueOf(uri),
-                                "", jawaban1, jawaban2, jawaban3, jawaban4, soal);
-                        FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
 
-                        Toast.makeText(TambahSoalRandomActivity.this,
-                                "Saving Data successfully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })).addOnFailureListener(e -> {
-                progressDialog.dismiss();
-                Toast.makeText(TambahSoalRandomActivity.this, e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }).addOnProgressListener(taskSnapshot -> {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
-                        taskSnapshot.getTotalByteCount();
-                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
-            });
+    Uri uri;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 0:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    uri = data.getData();
+                    Log.e("", "File Uri: " + uri.toString());
+                    // Get the path
+                    try {
+
+//                        path = getPath(this, uri);
+                        path = uri.toString();
+                        Log.e("onActivityResult", "File Path: " + path);
+//                        os 9 E/onActivityResult: File Path: content://media/external/audio/media/2493
+//                        os 11 E/onActivityResult: File Path: content://com.android.externalstorage.documents/document/primary%3Aquis%20lagu%2Fanakkambing.mp3
+                        String filename = uri.getLastPathSegment();
+                        String extension = path.substring(path.lastIndexOf(".") + 1);
+                        if (!extension.equalsIgnoreCase("mp3")) {
+                            ket.setText("File tidak didukung");
+                            ket.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            name_file.setText("FIle Name: " + filename.substring(filename.lastIndexOf("/") + 1));
+                            name_file.setVisibility(View.VISIBLE);
+                        }
+
+                        if (extension.equalsIgnoreCase("mp3")) {
+                            ket.setText("Input audio");
+                            ket.setTextColor(getResources().getColor(R.color.abu));
+                            name_file.setText("FIle Name: " + filename.substring(filename.lastIndexOf("/") + 1));
+                            name_file.setVisibility(View.VISIBLE);
+                        }
+
+                        if (path.contains("audio")) {
+                            //handling os <9 and audio
+                            String lokasi = getPath(this, uri);
+                            ket.setText("Input audio");
+                            ket.setTextColor(getResources().getColor(R.color.abu));
+                            name_file.setText("FIle Name: " + lokasi.substring(lokasi.lastIndexOf("/") + 1));
+                            name_file.setVisibility(View.VISIBLE);
+                        }
+
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void saving( String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4) {
+        if (path != null && uri != null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Menyimpan Data");
+            progressDialog.show();
+            Log.e("toString", uri.toString());
+            if (path.contains("audio")) {
+                //handling os <9 and audio
+                try {
+                    path = getPath(this, uri);
+                    Uri file = Uri.fromFile(new File(path));
+                    final StorageReference storageReferences = storageReference.child("lagu/" + file.getLastPathSegment());
+                    storageReferences.putFile(file)
+                            .addOnSuccessListener(taskSnapshot -> storageReferences.getDownloadUrl().addOnSuccessListener(uri -> {
+                                progressDialog.dismiss();
+                                String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
+                                SoalModel upload = new SoalModel(id, jawaban_benar, "random", String.valueOf(uri),
+                                        "", jawaban1, jawaban2, jawaban3, jawaban4, soal);
+                                FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
+
+                                Toast.makeText(TambahSoalRandomActivity.this,
+                                        "Data berhasil disimpan.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            })).addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Log.e("addOnFailureListener", "Gagal Menyimpan Data");
+                        Toast.makeText(TambahSoalRandomActivity.this, "Gagal Menyimpan Data",
+                                Toast.LENGTH_SHORT).show();
+                    }).addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
+                                taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Proses " + ((int) progress) + "%...");
+                    });
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                final StorageReference storageReferences = storageReference.child("lagu/" +
+                        uri.getLastPathSegment() );
+                storageReferences.putFile(uri)
+                        .addOnSuccessListener(taskSnapshot -> storageReferences.getDownloadUrl().addOnSuccessListener(uri -> {
+                            progressDialog.dismiss();
+                            String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
+                            SoalModel upload = new SoalModel(id, jawaban_benar, "random", String.valueOf(uri),
+                                    "", jawaban1, jawaban2, jawaban3, jawaban4, soal);
+                            FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
+
+                            Toast.makeText(TambahSoalRandomActivity.this,
+                                    "Data berhasil disimpan.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        })).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Log.e("addOnFailureListener", e.getMessage());
+                    Toast.makeText(TambahSoalRandomActivity.this, "Gagal Menyimpan Data",
+                            Toast.LENGTH_SHORT).show();
+                }).addOnProgressListener(taskSnapshot -> {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
+                            taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage("Proses " + ((int) progress) + "%...");
+                });
+            }
+
         } else {
-            Toast.makeText(this, "Make sure all data is correct",
+            Toast.makeText(this, "Pastikan semua data sudah benar",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkAndRequestPermissions() {
+        int read = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int write = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (read != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (write != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,listPermissionsNeeded.toArray
+                    (new String[0]),1);
         }
 
     }
-
 
 }

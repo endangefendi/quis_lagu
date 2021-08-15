@@ -199,7 +199,7 @@ public class EditSoalRandomActivity extends AppCompatActivity {
     private void saving(String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4) {
         if (id != null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Saving Data");
+            progressDialog.setTitle("Menyimpan Data");
             progressDialog.show();
             final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("soal");
             try {
@@ -228,7 +228,7 @@ public class EditSoalRandomActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(this, "Make sure all data is correct",
+            Toast.makeText(this, "Pastikan semua data sudah benar",
                     Toast.LENGTH_SHORT).show();
         }
     }

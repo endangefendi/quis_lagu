@@ -68,17 +68,17 @@ public class LoginAdminActivity extends AppCompatActivity {
         if(username.isEmpty() && password.isEmpty()){
             progress_bar.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
-            Snackbar.make(edUsername, "Username and Password is empty", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(edUsername, "Username and Password tidak boleh kosong", Snackbar.LENGTH_SHORT).show();
         } else
 
         if(username.isEmpty()){
             progress_bar.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
-            Snackbar.make(edUsername, "Username is empty", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(edUsername, "Username tidak boleh kosong", Snackbar.LENGTH_SHORT).show();
         }else
 
         if(password.isEmpty()){
-            Snackbar.make(edUsername, "Password is empty", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(edUsername, "Password tidak boleh kosong", Snackbar.LENGTH_SHORT).show();
             progress_bar.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
         }else
@@ -115,7 +115,7 @@ public class LoginAdminActivity extends AppCompatActivity {
             } else {
                 // If sign in fails, display a message to the user.
                 Log.e(TAG, "signInWithEmailAndPassword: failure", task.getException());
-                Snackbar.make(edUsername, "Login failure", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(edUsername, "Gagal Login", Snackbar.LENGTH_SHORT).show();
                 progress_bar.setVisibility(View.GONE);
                 btn_login.setVisibility(View.VISIBLE);
 

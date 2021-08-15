@@ -102,7 +102,7 @@ public class AddPulauActivity extends AppCompatActivity {
         //Method ini digunakan untuk mengambil gambar dari Kamera
         CharSequence[] menu = {"Kamera", "Galeri"};
         AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                .setTitle("Upload Image")
+                .setTitle("Pilih Gambar")
                 .setItems(menu, (dialog1, which) -> {
                     switch (which){
                         case 0:
@@ -136,7 +136,7 @@ public class AddPulauActivity extends AppCompatActivity {
     private void savingFromCamera(EditText name_pulau) {
         if (resultUri != null || bitmap != null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Saving Data");
+            progressDialog.setTitle("Menyimpan Data");
             progressDialog.show();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -151,19 +151,19 @@ public class AddPulauActivity extends AppCompatActivity {
                                 String.valueOf(uri));
                         FirebaseDatabase.getInstance().getReference("master pulau").child(id).setValue(upload);
                         Toast.makeText(AddPulauActivity.this,
-                                "Saving Data successfully", Toast.LENGTH_SHORT).show();
+                                "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
                         finish();
                     })).addOnFailureListener(e -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddPulauActivity.this, e.getMessage(),
+                        Toast.makeText(AddPulauActivity.this, "Gagal Menyimpan Data",
                                 Toast.LENGTH_SHORT).show();
                     }).addOnProgressListener(taskSnapshot -> {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
                         taskSnapshot.getTotalByteCount();
-                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                progressDialog.setMessage("Proses " + ((int) progress) + "%...");
             });
         } else {
-            Toast.makeText(this,"Make sure all data is correct",
+            Toast.makeText(this,"Pastikan semua data sudah benar",
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -171,7 +171,7 @@ public class AddPulauActivity extends AppCompatActivity {
     private void saving(EditText name_pulau){
         if (resultUri != null || bitmap != null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Saving Data");
+            progressDialog.setTitle("Menyimpan Data");
             progressDialog.show();
             final StorageReference storageReferences = storageReference.child("icon/pulau/"+ name_pulau.getText().toString().trim()+ "." +getFileExtension(resultUri));
             storageReferences.putFile(resultUri)
@@ -182,19 +182,19 @@ public class AddPulauActivity extends AppCompatActivity {
                                 String.valueOf(uri));
                         FirebaseDatabase.getInstance().getReference("master pulau").push().setValue(upload);
                         Toast.makeText(AddPulauActivity.this,
-                                "Saving Data successfully", Toast.LENGTH_SHORT).show();
+                                "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
                         finish();
                     })).addOnFailureListener(e -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddPulauActivity.this, e.getMessage(),
+                        Toast.makeText(AddPulauActivity.this, "Gagal Menyimpan Data",
                                 Toast.LENGTH_SHORT).show();
                     }).addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
                                 taskSnapshot.getTotalByteCount();
-                        progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        progressDialog.setMessage("Proses " + ((int) progress) + "%...");
                     });
         } else {
-            Toast.makeText(this,"Make sure all data is correct",
+            Toast.makeText(this,"Pastikan semua data sudah benart",
                     Toast.LENGTH_SHORT).show();
         }
     }

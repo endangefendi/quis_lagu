@@ -61,7 +61,7 @@ public class MasterDataPulauActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MasterDataPulauActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MasterDataPulauActivity.this, "Opsss.... Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
 

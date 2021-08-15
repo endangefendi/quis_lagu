@@ -178,7 +178,7 @@ public class TambahSoalMapActivity extends AppCompatActivity {
                     0);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Please install a File Manager.",
+            Toast.makeText(this, "Silahkan install File Manager.",
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -356,7 +356,7 @@ public class TambahSoalMapActivity extends AppCompatActivity {
                             })).addOnFailureListener(e -> {
                         progressDialog.dismiss();
                         Log.e("addOnFailureListener", e.getMessage());
-                        Toast.makeText(TambahSoalMapActivity.this, e.getMessage(),
+                        Toast.makeText(TambahSoalMapActivity.this, "Gagal Menyimpan Data",
                                 Toast.LENGTH_SHORT).show();
                     }).addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
@@ -383,7 +383,7 @@ public class TambahSoalMapActivity extends AppCompatActivity {
                         })).addOnFailureListener(e -> {
                     progressDialog.dismiss();
                     Log.e("addOnFailureListener", e.getMessage());
-                    Toast.makeText(TambahSoalMapActivity.this, e.getMessage(),
+                    Toast.makeText(TambahSoalMapActivity.this, "Gagal Menyimpan Data",
                             Toast.LENGTH_SHORT).show();
                 }).addOnProgressListener(taskSnapshot -> {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
@@ -393,7 +393,7 @@ public class TambahSoalMapActivity extends AppCompatActivity {
             }
 
         } else {
-            Toast.makeText(this, "Simpan data gagal,\nHarap masukkan audio",
+            Toast.makeText(this, "Pastikan semua data sudah benar",
                     Toast.LENGTH_SHORT).show();
         }
 

@@ -60,7 +60,7 @@ public class MasterBannerActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MasterBannerActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MasterBannerActivity.this, "Opsss.... Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
     }
