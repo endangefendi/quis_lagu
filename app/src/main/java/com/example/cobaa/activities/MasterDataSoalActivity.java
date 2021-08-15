@@ -64,8 +64,7 @@ public class MasterDataSoalActivity extends AppCompatActivity {
                 startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalRandomActivity.class));
             }
             else {
-//                startActivity(new Intent(MasterDataSoalActivity.this, MAPTambahSoalctivity.class));
-                Toast.makeText(MasterDataSoalActivity.this, "KLIK Tambah Soal Map", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalMapActivity.class));
 
             }
         });

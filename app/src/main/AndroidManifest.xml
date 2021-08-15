@@ -18,6 +18,9 @@
         android:roundIcon="@mipmap/ic_icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.TambahSoalMapActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
         <activity android:name=".activities.EditSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />

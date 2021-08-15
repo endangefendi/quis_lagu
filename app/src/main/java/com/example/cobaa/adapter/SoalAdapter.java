@@ -1,9 +1,12 @@
 package com.example.cobaa.adapter;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,11 @@ import com.example.cobaa.R;
 import com.example.cobaa.activities.EditSoalMapActivity;
 import com.example.cobaa.activities.EditSoalRandomActivity;
 import com.example.cobaa.models.SoalModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +100,10 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
             }
         });
 
+        holder.frame_soal.setOnLongClickListener(view -> {
+            Hapus(holder);
+            return true;
+        });
         holder.frame_soal.setOnClickListener(view -> {
             Bundle bundle= new Bundle();
             bundle.putString("id", list.get(position).getId());
@@ -140,6 +152,48 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
             }
         });
 
+    }
+
+    private void Hapus(ViewHolder holder) {
+        final String id = list.get(holder.getAdapterPosition()).getId();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Yakin ingin menghapus soal ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    dialog.cancel();
+                    ProgressDialog  progressDialog = ProgressDialog.show(context, "Please wait...",
+                            "Processing...", true);
+                    progressDialog.show();
+                    final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("soal");
+                    try {
+                        ref.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                    appleSnapshot.getRef().removeValue();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(context, "Data Soal berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e("SoalAdapter", "onCancelled", databaseError.toException());
+                            }
+
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.cancel());
+        AlertDialog alert = builder.create();
+        alert.show();
+        //for positive side button
+        alert.getButton(alert.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        //for negative side button
+        alert.getButton(alert.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
     private void play_audio(final String audio, final ViewHolder holder) {
