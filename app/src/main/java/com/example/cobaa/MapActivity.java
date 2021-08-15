@@ -55,7 +55,7 @@ public class MapActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_MEDIA && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startgame();
         } else {
-            Toast.makeText(MapActivity.this, "App cannot run without permission", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapActivity.this, "Tidak dapat Berjalan.\nAplikasi memerlukan izin", Toast.LENGTH_SHORT).show();
         }
     }
 
