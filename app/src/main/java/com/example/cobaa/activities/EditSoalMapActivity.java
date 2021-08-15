@@ -1,14 +1,11 @@
 package com.example.cobaa.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cobaa.R;
-import com.example.cobaa.models.BannerModel;
 import com.example.cobaa.models.SoalModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,7 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class TambahSoalRandomActivity extends AppCompatActivity {
+public class EditSoalMapActivity extends AppCompatActivity {
 
     TextView name_file;
     TextView ket;
@@ -229,14 +227,13 @@ public class TambahSoalRandomActivity extends AppCompatActivity {
                         String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
                         SoalModel upload = new SoalModel(id, jawaban_benar, "random", String.valueOf(uri),
                                 "", jawaban1, jawaban2, jawaban3, jawaban4, soal);
-                        FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
-
-                        Toast.makeText(TambahSoalRandomActivity.this,
+                        FirebaseDatabase.getInstance().getReference("soal").push().setValue(upload);
+                        Toast.makeText(EditSoalMapActivity.this,
                                 "Saving Data successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     })).addOnFailureListener(e -> {
                 progressDialog.dismiss();
-                Toast.makeText(TambahSoalRandomActivity.this, e.getMessage(),
+                Toast.makeText(EditSoalMapActivity.this, e.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }).addOnProgressListener(taskSnapshot -> {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) /

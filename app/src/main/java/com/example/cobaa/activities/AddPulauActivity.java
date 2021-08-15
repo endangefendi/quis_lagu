@@ -149,7 +149,7 @@ public class AddPulauActivity extends AppCompatActivity {
                         String id = FirebaseDatabase.getInstance().getReference("master pulau").push().getKey();
                         PulauModel upload = new PulauModel(id, name_pulau.getText().toString().trim(),
                                 String.valueOf(uri));
-                        FirebaseDatabase.getInstance().getReference("master pulau").push().setValue(upload);
+                        FirebaseDatabase.getInstance().getReference("master pulau").child(id).setValue(upload);
                         Toast.makeText(AddPulauActivity.this,
                                 "Saving Data successfully", Toast.LENGTH_SHORT).show();
                         finish();

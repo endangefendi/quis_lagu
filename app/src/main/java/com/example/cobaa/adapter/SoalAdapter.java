@@ -1,11 +1,14 @@
 package com.example.cobaa.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
+import com.example.cobaa.activities.EditSoalMapActivity;
+import com.example.cobaa.activities.EditSoalRandomActivity;
 import com.example.cobaa.models.SoalModel;
 
 import java.io.IOException;
@@ -23,14 +28,15 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
     private final ArrayList<SoalModel> list;
 
     private final MediaPlayer mp;
+    private final String key_menu;
     private boolean isPlaying;
 
-    public SoalAdapter(Context context, ArrayList<SoalModel> list, MediaPlayer mp) {
+    public SoalAdapter(Context context, ArrayList<SoalModel> list, MediaPlayer mp, String key_menu) {
         this.context = context;
         this.list = list;
         this.mp = mp;
         isPlaying = false;
-
+        this.key_menu = key_menu;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,6 +45,7 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
         private final TextView nomor;
         private final ImageView btnStart;
         private final ImageView btnStop;
+        private final RelativeLayout frame_soal;
 
         public ViewHolder(View v) {
             super(v);
@@ -46,6 +53,7 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
             tv_question = v.findViewById(R.id.tv_question);
             btnStart = v.findViewById(R.id.btnStart);
             btnStop = v.findViewById(R.id.btnStop);
+            frame_soal = v.findViewById(R.id.frame_soal);
         }
     }
 
@@ -81,6 +89,54 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
                 isPlaying = false;
                 holder.btnStart.setVisibility(View.VISIBLE);
                 holder.btnStop.setVisibility(View.GONE);
+            }
+        });
+
+        holder.frame_soal.setOnClickListener(view -> {
+            Bundle bundle= new Bundle();
+            bundle.putString("id", list.get(position).getId());
+            bundle.putString("jawaban", list.get(position).getJawaban());
+            bundle.putString("jenis_soal", list.get(position).getJenis_soal());
+            bundle.putString("lagu", list.get(position).getLagu());
+            bundle.putString("map", list.get(position).getMap());
+            bundle.putString("pilihan1", list.get(position).getPilihan1());
+            bundle.putString("pilihan2", list.get(position).getPilihan2());
+            bundle.putString("pilihan3", list.get(position).getPilihan3());
+            bundle.putString("pilihan4", list.get(position).getPilihan4());
+            bundle.putString("soal", list.get(position).getSoal());
+
+            if (!key_menu.isEmpty()) {
+                if (key_menu.toLowerCase().contains("soal random")) {
+                    if (isPlaying) {
+                        mp.stop();
+                        mp.reset();
+                        isPlaying = false;
+                        holder.btnStart.setVisibility(View.VISIBLE);
+                        holder.btnStop.setVisibility(View.GONE);
+                        Intent intent = new Intent(holder.itemView.getContext(), EditSoalRandomActivity.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(holder.itemView.getContext(), EditSoalRandomActivity.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
+                } else {
+                    if (isPlaying) {
+                        mp.stop();
+                        mp.reset();
+                        isPlaying = false;
+                        holder.btnStart.setVisibility(View.VISIBLE);
+                        holder.btnStop.setVisibility(View.GONE);
+                        Intent intent = new Intent(holder.itemView.getContext(), EditSoalMapActivity.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(holder.itemView.getContext(), EditSoalMapActivity.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
+                }
             }
         });
 

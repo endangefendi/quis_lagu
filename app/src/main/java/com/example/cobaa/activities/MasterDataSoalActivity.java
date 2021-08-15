@@ -9,15 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cobaa.R;
-import com.example.cobaa.adapter.MenuAdminAdapter;
 import com.example.cobaa.adapter.SoalAdapter;
-import com.example.cobaa.models.MenuModel;
 import com.example.cobaa.models.SoalModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,12 +40,13 @@ public class MasterDataSoalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_data_soal);
-        final Bundle bun = this.getIntent().getExtras();
 
         ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> finish());
 
         TextView tv_title = findViewById(R.id.tv_title);
+
+        final Bundle bun = this.getIntent().getExtras();
         if (bun != null) {
             key_soal = bun.getString("key_menu");
             tv_title.setText(key_soal);
@@ -76,7 +74,7 @@ public class MasterDataSoalActivity extends AppCompatActivity {
         list = new ArrayList<>();
         mp = new MediaPlayer();
 
-        adapter = new SoalAdapter(MasterDataSoalActivity.this, list, mp);
+        adapter = new SoalAdapter(MasterDataSoalActivity.this, list, mp, key_soal);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 MasterDataSoalActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

@@ -151,7 +151,7 @@ public class AddBannerActivity extends AppCompatActivity {
                         String id = FirebaseDatabase.getInstance().getReference("banner").push().getKey();
                         BannerModel upload = new BannerModel(id,
                                 String.valueOf(uri), name_banner.getText().toString().trim());
-                        FirebaseDatabase.getInstance().getReference("banner").push().setValue(upload);
+                        FirebaseDatabase.getInstance().getReference("banner").child(id).setValue(upload);
                         Toast.makeText(AddBannerActivity.this,
                                 "Saving Data successfully", Toast.LENGTH_SHORT).show();
                         finish();
