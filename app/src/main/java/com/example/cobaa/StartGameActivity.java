@@ -49,7 +49,8 @@ public class StartGameActivity extends AppCompatActivity {
                             assert user != null;
                             Log.e("TAG", "signInAnonymously: "+user.getUid());
                             Intent intent = new Intent(StartGameActivity.this, DetailQuisActivity.class);
-                            intent.putExtra("menu","GAME ACAK");
+                            intent.putExtra("jenis_soal","random");
+                            intent.putExtra("map","");
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
