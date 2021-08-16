@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.cobaa.MapActivity;
 import com.example.cobaa.QuestionActivity;
 import com.example.cobaa.R;
+import com.example.cobaa.StartGameActivity;
 import com.example.cobaa.models.SoalModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -141,12 +142,13 @@ public class DetailQuisActivity extends AppCompatActivity {
                 }
 
                 Log.e("list.size()", "" + (list.size()));
-                if (list.size()<=0){
+                if (list.size()<=10){
                     Log.e("list.size()", "" + (list.size()));
                     munculPopup();
                 }else {
                     updateQuestion(list.size());
                 }
+                progressDialog.dismiss();
 
             }
 
@@ -163,7 +165,10 @@ public class DetailQuisActivity extends AppCompatActivity {
         builder.setMessage("Mohon maaf soal ini belum bisa dipilih ?")
                 .setCancelable(false)
                 .setPositiveButton("Keluar",
-                        (dialog, id) -> dialog.dismiss());
+                        (dialog, id) -> {
+                    dialog.dismiss();
+                    finish();
+                });
         AlertDialog alert = builder.create();
         alert.show();
 
@@ -197,7 +202,13 @@ public class DetailQuisActivity extends AppCompatActivity {
 //        initAudio();
     }
 
+
+    private ProgressDialog progressDialog;
     private void insial() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Menyiapkan Data");
+        progressDialog.show();
+
         mediaplayer = new MediaPlayer();
 
         tvScore = findViewById(R.id.tvScore);
@@ -227,23 +238,22 @@ public class DetailQuisActivity extends AppCompatActivity {
         ImageView ivIndicator = dialog.findViewById(R.id.ivIndicator);
 
         if (hasil_jawaban>7) {
-            tvInfo.setText("Selesai !, Kamu mendapat Nilai :" + hasil_jawaban+".");
+            tvInfo.setText("Selesai !, Kamu mendapat " + hasil_jawaban+".");
             ivIndicator.setImageResource(R.drawable.ic_smile);
         } if (hasil_jawaban>=4 && hasil_jawaban<=7){
             ivIndicator.setImageResource(R.drawable.ic_confused);
-            tvInfo.setText("Permainan selesai !, Nilai kamu " + hasil_jawaban+".");
+            tvInfo.setText("Permainan selesai !, Poin kamu " + hasil_jawaban+".");
         }else{
             ivIndicator.setImageResource(R.drawable.ic_sad);
-            tvInfo.setText("Yaaaah... Nilai kamu " + hasil_jawaban+".");
+            tvInfo.setText("Yaaaah... Poin kamu " + hasil_jawaban+".");
         }
         btnExit.setOnClickListener(v -> {
             dialog.dismiss();
             finish();
-            System.exit(0);
         });
         btnNewGame.setOnClickListener(v -> {
             dialog.dismiss();
-            Intent intent = new Intent(DetailQuisActivity.this, MapActivity.class);
+            Intent intent = new Intent(DetailQuisActivity.this, StartGameActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
