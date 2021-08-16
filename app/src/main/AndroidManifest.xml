@@ -20,9 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.DetailQuisActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+        <activity
             android:name=".activities.QuisTidakAcakActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TopRed"/>
+            android:theme="@style/TopRed" />
         <activity
             android:name=".activities.TambahSoalMapActivity"
             android:screenOrientation="portrait"

@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cobaa.activities.DetailQuisActivity;
 import com.example.cobaa.activities.QuisTidakAcakActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +48,8 @@ public class StartGameActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
                             Log.e("TAG", "signInAnonymously: "+user.getUid());
-                            Intent intent = new Intent(StartGameActivity.this, QuestionRandomActivity.class);
+                            Intent intent = new Intent(StartGameActivity.this, DetailQuisActivity.class);
+                            intent.putExtra("menu","GAME ACAK");
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

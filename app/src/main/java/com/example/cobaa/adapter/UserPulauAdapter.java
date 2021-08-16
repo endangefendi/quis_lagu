@@ -1,14 +1,13 @@
 package com.example.cobaa.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.cobaa.R;
+import com.example.cobaa.activities.DetailQuisActivity;
 import com.example.cobaa.models.PulauModel;
 
 import java.util.ArrayList;
@@ -58,8 +58,9 @@ public class UserPulauAdapter extends  RecyclerView.Adapter<UserPulauAdapter.Vie
 
         holder.name_banner.setText(list.get(position).getName_pulau());
         holder.banner.setOnClickListener(view -> {
-            Log.e("TAG","Pilih "+list.get(position).getName_pulau());
-
+            Intent intent = new Intent(context,  DetailQuisActivity.class);
+            intent.putExtra("menu", "Menu Soal "+list.get(position).getName_pulau());
+            context.startActivity(intent);
         });
     }
 
