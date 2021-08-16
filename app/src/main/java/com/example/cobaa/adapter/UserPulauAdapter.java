@@ -1,7 +1,6 @@
 package com.example.cobaa.adapter;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.cobaa.R;
 import com.example.cobaa.models.PulauModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,7 +33,6 @@ public class UserPulauAdapter extends  RecyclerView.Adapter<UserPulauAdapter.Vie
 
         private final ImageView banner;
         private final TextView name_banner;
-
 
         public ViewHolder(View v) {
             super(v);
@@ -64,7 +57,10 @@ public class UserPulauAdapter extends  RecyclerView.Adapter<UserPulauAdapter.Vie
                 .into(holder.banner);
 
         holder.name_banner.setText(list.get(position).getName_pulau());
+        holder.banner.setOnClickListener(view -> {
+            Log.e("TAG","Pilih "+list.get(position).getName_pulau());
 
+        });
     }
 
     @Override
