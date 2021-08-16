@@ -2,11 +2,14 @@ package com.example.cobaa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cobaa.activities.QuisTidakAcakActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class StartGameActivity extends AppCompatActivity {
 
@@ -14,23 +17,46 @@ public class StartGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
-        Button btnMap = (Button) findViewById(R.id.btnMap);
-        Button btnRandom = (Button) findViewById(R.id.btnRandom);
+        Button btnMap = findViewById(R.id.btnMap);
+        Button btnRandom = findViewById(R.id.btnRandom);
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StartGameActivity.this, MapActivity.class);
-                startActivity(intent);
-            }
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        btnMap.setOnClickListener(v -> {
+            mAuth.signInAnonymously()
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            Log.e("TAG", "signInAnonymously: "+user.getUid());
+                            Intent intent = new Intent(StartGameActivity.this, QuisTidakAcakActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e("TAG", "signInAnonymously:failure", task.getException());
+                        }
+                    });
         });
 
-        btnRandom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StartGameActivity.this, QuestionRandomActivity.class);
-                startActivity(intent);
-            }
+        btnRandom.setOnClickListener(v -> {
+            mAuth.signInAnonymously()
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            Log.e("TAG", "signInAnonymously: "+user.getUid());
+                            Intent intent = new Intent(StartGameActivity.this, QuestionRandomActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e("TAG", "signInAnonymously:failure", task.getException());
+                        }
+                    });
         });
+
     }
+
+
 }

@@ -19,16 +19,24 @@
         android:roundIcon="@mipmap/ic_icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.TambahSoalMapActivity"
+        <activity
+            android:name=".activities.QuisTidakAcakActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed"/>
+        <activity
+            android:name=".activities.TambahSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
-        <activity android:name=".activities.EditSoalMapActivity"
+        <activity
+            android:name=".activities.EditSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
-        <activity android:name=".activities.EditSoalRandomActivity"
+        <activity
+            android:name=".activities.EditSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
-        <activity android:name=".activities.TambahSoalRandomActivity"
+        <activity
+            android:name=".activities.TambahSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
