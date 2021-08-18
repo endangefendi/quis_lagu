@@ -9,9 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +21,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cobaa.MapActivity;
-import com.example.cobaa.QuestionActivity;
 import com.example.cobaa.R;
 import com.example.cobaa.StartGameActivity;
 import com.example.cobaa.models.SoalModel;
@@ -60,71 +56,110 @@ public class DetailQuisActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_quis);
 
+
+
         insial();
         if (getIntent()!=null){
             String jenis_soal = getIntent().getStringExtra("jenis_soal");
             String map = getIntent().getStringExtra("map");
+            TextView tv_title = findViewById(R.id.tv_title);
+            if (map.equalsIgnoreCase("")){
+                tv_title.setText(getString(R.string.name)+" "+getString(R.string.name_map) );
+            }else {
+                tv_title.setText(getString(R.string.name)+" "+getString(R.string.name_acak) );
+            }
+
             getSoal(jenis_soal, map);
         }
 
         btnAnswerA.setOnClickListener(view -> {
+            progressDialog.show();
             if (btnAnswerA.getText().toString().equals(jawab)) {
                 no++;
                 hasil_jawaban++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }else {
                 no++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerB.setOnClickListener(view -> {
+            progressDialog.show();
             if (btnAnswerB.getText().toString().equals(jawab)) {
                 no++;
                 hasil_jawaban++;
-                tvScore.setText("Soal : "+no + " / 10" );;
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );;
             }else {
                 no++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerC.setOnClickListener(view -> {
+            progressDialog.show();
             if (btnAnswerC.getText().toString().equals(jawab)) {
                 no++;
                 hasil_jawaban++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }else {
                 no++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerD.setOnClickListener(view -> {
+            progressDialog.show();
             if (btnAnswerD.getText().toString().equals(jawab)) {
                 no++;
                 hasil_jawaban++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }else {
                 no++;
-                tvScore.setText("Soal : "+no + " / 10" );
                 updateQuestion(list.size());
+                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
-        btnStart.setOnClickListener(v -> playAudio(lagu));
+        btnStart.setOnClickListener(v -> {
+            if (!isPlaying) {
+                play_audio(lagu);
+                isPlaying = true;
+                btnStart.setVisibility(View.GONE);
+                btnStop.setVisibility(View.VISIBLE);
+            }
+        });
         btnStop.setOnClickListener(v -> stopAudio());
+
+        ImageView iv_back = findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(v -> onBackPressed());
     }
 
+    private boolean isPlaying = false;
+    private void play_audio(final String audio) {
+        try {
+            mp.setDataSource(audio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
+        mp.prepareAsync();
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setOnCompletionListener(mediaPlayer -> {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            isPlaying = false;
+            btnStart.setVisibility(View.VISIBLE);
+            btnStop.setVisibility(View.GONE);
+        });
+    }
     private ArrayList<SoalModel> list = new ArrayList<>();
     private void getSoal(String jenis_soal, String map) {
         list.clear();
@@ -143,7 +178,7 @@ public class DetailQuisActivity extends AppCompatActivity {
 
                 Log.e("list.size()", "" + (list.size()));
                 Log.e("list.size()", "" + (list.size()));
-                if (list.size()<=10){
+                if (list.size()<10){
                     munculPopup();
                 }else {
                     updateQuestion(list.size());
@@ -167,6 +202,7 @@ public class DetailQuisActivity extends AppCompatActivity {
                 .setPositiveButton("Keluar",
                         (dialog, id) -> {
                     dialog.dismiss();
+                    stopAudio();
                     finish();
                 });
         AlertDialog alert = builder.create();
@@ -177,26 +213,28 @@ public class DetailQuisActivity extends AppCompatActivity {
     }
 
     private void updateQuestion(int num) {
-        if (tvScore.getText().toString().equalsIgnoreCase("Soal : 10 / 10")){
+        if (no==10){
+            SoalBerakhir();
             TextView nilai = findViewById(R.id.nilai);
             nilai.setText("Nilai : "+hasil_jawaban);
-            SoalBerakhir();
+            progressDialog.dismiss();
         }else {
+            stopAudio();
             int minimum = 1;
             int range = num-minimum+1;
             Random random = new Random();
             int randomAngka = random.nextInt(range)+minimum;
-            tvQuestion.setText(list.get(randomAngka-1).getSoal());
-            btnAnswerA.setText(list.get(randomAngka-1).getPilihan1());
-            btnAnswerB.setText(list.get(randomAngka-1).getPilihan2());
-            btnAnswerC.setText(list.get(randomAngka-1).getPilihan3());
-            btnAnswerD.setText(list.get(randomAngka-1).getPilihan4());
-            jawab = list.get(randomAngka-1).getJawaban();
+            tvQuestion.setText(list.get(randomAngka-1).getSoal().trim());
+            btnAnswerA.setText(list.get(randomAngka-1).getPilihan1().trim());
+            btnAnswerB.setText(list.get(randomAngka-1).getPilihan2().trim());
+            btnAnswerC.setText(list.get(randomAngka-1).getPilihan3().trim());
+            btnAnswerD.setText(list.get(randomAngka-1).getPilihan4().trim());
+            jawab = list.get(randomAngka-1).getJawaban().trim();
             lagu = list.get(randomAngka-1).getLagu();
 
             Log.e("int", "randomAngka " + (randomAngka-1));
             Log.e("jawab", "jawab " + jawab);
-            stopAudio();
+            progressDialog.dismiss();
         }
 //        }
 //        initAudio();
@@ -209,7 +247,7 @@ public class DetailQuisActivity extends AppCompatActivity {
         progressDialog.setMessage("Menyiapkan Data");
         progressDialog.show();
 
-        mediaplayer = new MediaPlayer();
+        mp = new MediaPlayer();
 
         tvScore = findViewById(R.id.tvScore);
         btnStart = findViewById(R.id.btnStart);
@@ -250,75 +288,37 @@ public class DetailQuisActivity extends AppCompatActivity {
         btnExit.setOnClickListener(v -> {
             dialog.dismiss();
             finish();
+            stopAudio();
         });
         btnNewGame.setOnClickListener(v -> {
             dialog.dismiss();
-            Intent intent = new Intent(DetailQuisActivity.this, StartGameActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            recreate();
+//            Intent intent = new Intent(DetailQuisActivity.this, StartGameActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
         });
 
         dialog.show();
 
     }
 
-    private MediaPlayer mediaplayer;
-
+    private MediaPlayer mp;
     private void stopAudio() {
-//        mediaplayer.stop();
-        if (mediaplayer.isPlaying()) {
-            mediaplayer.stop();
+        if (isPlaying) {
+            mp.stop();
+            mp.reset();
+            isPlaying = false;
+            btnStart.setVisibility(View.VISIBLE);
+            btnStop.setVisibility(View.GONE);
         }
-        try {
-//            mediaplayer.prepare();
-//            mediaplayer.seekTo(0);
-            if (mediaplayer.isPlaying()) {
-                mediaplayer.prepareAsync();
-                mediaplayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mediaplayer.seekTo(0);
-                    }
-                });
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-        btnStart.setVisibility(View.VISIBLE);
-        btnStop.setVisibility(View.GONE);
     }
 
-    private void playAudio(String filename) {
-        Log.e("Filename", filename);
-        mediaplayer = new MediaPlayer();
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            mediaplayer.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
-//        } else {
-//            mediaplayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        }
-        mediaplayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaplayer.setDataSource(filename);
-            mediaplayer.prepareAsync();
-            mediaplayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    btnStart.setVisibility(View.GONE);
-                    btnStop.setVisibility(View.VISIBLE);
-                    mediaplayer.start();
-                }
-            });
-            mediaplayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    btnStart.setVisibility(View.VISIBLE);
-                    btnStop.setVisibility(View.GONE);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(DetailQuisActivity.this,
-                    "Maaf tidak dapat memutar lagu", Toast.LENGTH_SHORT).show();
-        }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        stopAudio();
+
     }
 }

@@ -2,6 +2,8 @@
     <string name="app_name">Quiz Lanun</string>
 
     <string name="name">Game Quiz Lagu Nusantara</string>
+    <string name="name_acak">Berdasarkan Daerah</string>
+    <string name="name_map">Berdasarkan Acak</string>
 
     <!--dialog no internet-->
     <string name="title_no_internet">Tidak ada Jaringan Internet</string>

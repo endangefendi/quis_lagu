@@ -61,6 +61,8 @@ public class UserPulauAdapter extends  RecyclerView.Adapter<UserPulauAdapter.Vie
             Intent intent = new Intent(context,  DetailQuisActivity.class);
             intent.putExtra("jenis_soal", "map");
             intent.putExtra("map", list.get(position).getName_pulau().toLowerCase());
+            intent.putExtra("title", list.get(position).getName_pulau().toLowerCase());
+
             context.startActivity(intent);
         });
     }
