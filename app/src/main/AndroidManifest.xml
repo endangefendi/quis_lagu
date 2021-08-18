@@ -14,7 +14,7 @@
         android:fullBackupContent="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_icon"
-        android:label="@string/app_name"
+        android:label="@string/_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

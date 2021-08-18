@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Welcome To The Quiz Game"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="Selamat datang di Quiz Lanun"
             android:textColor="#FFFDFD"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
         <ProgressBar

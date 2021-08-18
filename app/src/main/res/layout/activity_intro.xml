@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ColorWhite"
@@ -35,37 +36,102 @@
             android:text="Panduan Game :"
             android:textSize="@dimen/_20sdp" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:fontFamily="@font/quicksand_reguler"
-            android:text="1. Setiap Pulau diberikan 10 Soal"
-            android:textSize="@dimen/_15sdp" />
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:src="@drawable/bg_bulat"
+                app:tint="@color/colorPrimary" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:fontFamily="@font/quicksand_reguler"
-            android:text="2. Per-soal diberikan 1 poin"
-            android:textSize="@dimen/_15sdp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:fontFamily="@font/quicksand_reguler"
+                android:textStyle="bold"
+                android:text="Setiap Pulau diberikan 10 Soal"
+                android:textSize="@dimen/_15sdp" />
 
-        <TextView
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
-            android:fontFamily="@font/quicksand_reguler"
-            android:text="3. Nilai ditampilakan setelah menjawab soal ke-10"
-            android:textSize="@dimen/_15sdp" />
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:src="@drawable/bg_bulat"
+                app:tint="@color/colorPrimary" />
 
-        <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:fontFamily="@font/quicksand_reguler"
+                android:textStyle="bold"
+                android:text="Per-soal diberikan 1 poin"
+                android:textSize="@dimen/_15sdp" />
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
-            android:fontFamily="@font/quicksand_reguler"
-            android:text="4. Enjoy the Game"
-            android:textSize="@dimen/_15sdp" />
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:src="@drawable/bg_bulat"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:fontFamily="@font/quicksand_reguler"
+                android:textStyle="bold"
+                android:text="Nilai ditampilakan setelah menjawab soal ke-10"
+                android:textSize="@dimen/_15sdp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:src="@drawable/bg_bulat"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:fontFamily="@font/quicksand_reguler"
+                android:textStyle="bold"
+                android:text="Selamat bermain"
+                android:textSize="@dimen/_15sdp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button

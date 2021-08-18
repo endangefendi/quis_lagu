@@ -142,8 +142,8 @@ public class DetailQuisActivity extends AppCompatActivity {
                 }
 
                 Log.e("list.size()", "" + (list.size()));
+                Log.e("list.size()", "" + (list.size()));
                 if (list.size()<=10){
-                    Log.e("list.size()", "" + (list.size()));
                     munculPopup();
                 }else {
                     updateQuestion(list.size());

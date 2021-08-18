@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Quiz lagu</string>
+    <string name="app_name">Game Quiz Lagu Nusantara</string>
+
+    <string name="_name">Quiz Lanun</string>
 
     <!--dialog no internet-->
     <string name="title_no_internet">Tidak ada Jaringan Internet</string>
