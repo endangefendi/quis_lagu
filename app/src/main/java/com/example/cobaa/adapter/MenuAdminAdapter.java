@@ -12,10 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
-import com.example.cobaa.activities.DashboarAdminActivity;
-import com.example.cobaa.activities.MasterBannerActivity;
-import com.example.cobaa.activities.MasterDataPulauActivity;
-import com.example.cobaa.activities.MasterDataSoalActivity;
+import com.example.cobaa.activities.admin.MasterBannerActivity;
+import com.example.cobaa.activities.admin.MasterDataPulauActivity;
+import com.example.cobaa.activities.admin.MasterDataSoalActivity;
 import com.example.cobaa.models.MenuModel;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

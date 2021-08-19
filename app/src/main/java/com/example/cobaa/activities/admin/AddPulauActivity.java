@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.admin;
 
 import android.Manifest;
 import android.app.AlertDialog;

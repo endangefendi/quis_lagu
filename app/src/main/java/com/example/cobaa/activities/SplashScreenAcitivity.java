@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.cobaa.R;
+import com.example.cobaa.activities.admin.DashboarAdminActivity;
 
 import static com.example.cobaa.constans.DataPreference.DATA_ADMIN;
 import static com.example.cobaa.constans.DataPreference.ID;
@@ -30,7 +31,7 @@ public class SplashScreenAcitivity extends AppCompatActivity {
         final Handler handler=new Handler();
         handler.postDelayed(() -> {
             if (id.equalsIgnoreCase("")){
-                startActivity(new Intent(getApplicationContext(), IntroPageActivity.class));
+                startActivity(new Intent(getApplicationContext(), PanduanPageActivity.class));
                 finish();
             }else {
                 startActivity(new Intent(getApplicationContext(), DashboarAdminActivity.class));

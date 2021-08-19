@@ -19,83 +19,63 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.DetailQuisActivity"
+            android:name=".activities.user.DetailQuisActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.QuisTidakAcakActivity"
+            android:name=".activities.user.QuisTidakAcakActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.TambahSoalMapActivity"
+            android:name=".activities.admin.TambahSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.EditSoalMapActivity"
+            android:name=".activities.admin.EditSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.EditSoalRandomActivity"
+            android:name=".activities.admin.EditSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.TambahSoalRandomActivity"
+            android:name=".activities.admin.TambahSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.MasterDataPulauActivity"
+            android:name=".activities.admin.MasterDataPulauActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.AddPulauActivity"
+            android:name=".activities.admin.AddPulauActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.AddBannerActivity"
+            android:name=".activities.admin.AddBannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.MasterBannerActivity"
+            android:name=".activities.admin.MasterBannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.MasterDataSoalActivity"
+            android:name=".activities.admin.MasterDataSoalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.DashboarAdminActivity"
+            android:name=".activities.admin.DashboarAdminActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".activities.LoginAdminActivity"
+            android:name=".activities.admin.LoginAdminActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".QuestionRandomActivity"
+            android:name=".activities.StartGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity
-            android:name=".StartGameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TopRed" />
-        <activity
-            android:name=".activities.IntroPageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TopRed" />
-        <activity
-            android:name=".TestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TopRed" />
-        <activity
-            android:name=".MapActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TopRed" />
-        <activity
-            android:name=".TesterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TopRed" />
-        <activity
-            android:name=".QuestionActivity"
+            android:name=".activities.PanduanPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
         <activity

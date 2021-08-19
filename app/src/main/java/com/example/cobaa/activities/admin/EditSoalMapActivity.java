@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.admin;
 
 import android.app.ProgressDialog;
 import android.content.Context;

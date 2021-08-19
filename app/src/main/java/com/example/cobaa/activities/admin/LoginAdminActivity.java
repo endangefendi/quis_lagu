@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.cobaa.R;
+import com.example.cobaa.activities.PanduanPageActivity;
 import com.example.cobaa.constans.DataPreference;
 import com.example.cobaa.utils.DialogUtils;
 import com.google.android.material.snackbar.Snackbar;
@@ -157,7 +158,7 @@ public class LoginAdminActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(getApplicationContext(), IntroPageActivity.class);
+        Intent i=new Intent(getApplicationContext(), PanduanPageActivity.class);
         startActivity(i);
         finish();
     }

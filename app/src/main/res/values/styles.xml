@@ -23,29 +23,4 @@
         <item name="contentInsetEnd">0dp</item>
     </style>
 
-    <style name="RLFeature">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/_100sdp</item>
-    </style>
-
-    <style name="IVFeature">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">centerCrop</item>
-    </style>
-
-    <style name="IVFeatureFrame">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">fitXY</item>
-    </style>
-
-    <style name="TVFeature">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/quicksand_bold</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">@dimen/_12sdp</item>
-    </style>
-
 </resources>

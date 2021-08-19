@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.cobaa.R;
-import com.example.cobaa.adapter.BannerAdapter;
 import com.example.cobaa.adapter.PulauAdapter;
-import com.example.cobaa.models.BannerModel;
 import com.example.cobaa.models.PulauModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -17,12 +16,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cobaa.R;
-import com.example.cobaa.StartGameActivity;
 import com.example.cobaa.models.SoalModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +36,6 @@ public class DetailQuisActivity extends AppCompatActivity {
     private TextView tvScore;
     private ImageView btnStart;
     private ImageView btnStop;
-    private SeekBar playerSeekBar;
     private TextView tvQuestion;
     private Button btnAnswerA;
     private Button btnAnswerB;
@@ -252,7 +248,6 @@ public class DetailQuisActivity extends AppCompatActivity {
         tvScore = findViewById(R.id.tvScore);
         btnStart = findViewById(R.id.btnStart);
         btnStop  = findViewById(R.id.btnStop);
-        playerSeekBar = findViewById(R.id.playerSeekBar);
         tvQuestion = findViewById(R.id.tvQuestion);
 
         btnAnswerA = findViewById(R.id.btnAnswerA);

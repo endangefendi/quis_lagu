@@ -19,8 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
-import com.example.cobaa.activities.EditSoalMapActivity;
-import com.example.cobaa.activities.EditSoalRandomActivity;
+import com.example.cobaa.activities.admin.EditSoalMapActivity;
+import com.example.cobaa.activities.admin.EditSoalRandomActivity;
 import com.example.cobaa.models.SoalModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

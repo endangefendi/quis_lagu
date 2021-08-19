@@ -1,4 +1,4 @@
-package com.example.cobaa.activities;
+package com.example.cobaa.activities.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,7 +82,7 @@ public class DashboarAdminActivity extends AppCompatActivity {
                         (dialog, id) -> {
                             DataPreference.DELETE_ADMIN(DashboarAdminActivity.this);
                             FirebaseAuth.getInstance().signOut();
-                            Intent i=new Intent(getApplicationContext(),LoginAdminActivity.class);
+                            Intent i=new Intent(getApplicationContext(), LoginAdminActivity.class);
                             startActivity(i);
                             finish();
                         }

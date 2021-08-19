@@ -1,4 +1,4 @@
-package com.example.cobaa;
+package com.example.cobaa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cobaa.activities.DetailQuisActivity;
-import com.example.cobaa.activities.QuisTidakAcakActivity;
+import com.example.cobaa.R;
+import com.example.cobaa.activities.user.DetailQuisActivity;
+import com.example.cobaa.activities.user.QuisTidakAcakActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
