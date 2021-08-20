@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/save"
         android:layout_margin="@dimen/_25sdp"
-        android:text="save"
+        android:text="simpan"
         android:textColor="@android:color/white"
         android:background="@drawable/bg_button"/>
 

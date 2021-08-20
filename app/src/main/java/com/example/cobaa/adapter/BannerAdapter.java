@@ -1,13 +1,19 @@
 package com.example.cobaa.adapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,9 +50,11 @@ public class BannerAdapter extends  RecyclerView.Adapter<BannerAdapter.ViewHolde
         private final TextView name_banner;
 
         private final Button btn_hapus;
+        private final Button btn_edit;
 
         public ViewHolder(View v) {
             super(v);
+            btn_edit = v.findViewById(R.id.btn_edit);
             btn_hapus = v.findViewById(R.id.btn_hapus);
             banner = v.findViewById(R.id.banner);
             id_banner = v.findViewById(R.id.id_banner);
@@ -73,7 +81,70 @@ public class BannerAdapter extends  RecyclerView.Adapter<BannerAdapter.ViewHolde
         holder.name_banner.setText(list.get(position).getName_banner());
 
         holder.btn_hapus.setOnClickListener(v -> konfirDelete(holder));
+        holder.btn_edit.setOnClickListener(v -> editData(holder));
 
+    }
+
+    private void editData(ViewHolder holder) {
+        final String id = list.get(holder.getAdapterPosition()).getId();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_edit);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        EditText txt_nama = dialog.findViewById(R.id.txt_nama);
+        Button btnExit = dialog.findViewById(R.id.btnExit);
+        Button btnSimpan = dialog.findViewById(R.id.btnSimpan);
+        txt_nama.setText(list.get(holder.getAdapterPosition()).getName_banner());
+        btnExit.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        btnSimpan.setOnClickListener(v -> {
+            if (txt_nama.getText().toString().trim().equalsIgnoreCase("")){
+                txt_nama.setError("Nama Banner Tidak boleh kosong");
+            }else{
+                saving(id, txt_nama.getText().toString().trim());
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+
+    }
+
+    private void saving(String id, String name_banner) {
+        if (id != null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Menyimpan Data");
+            progressDialog.show();
+            final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("banner");
+            try {
+                ref.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ref.child(id).child("name_banner").setValue(name_banner);
+
+                        progressDialog.dismiss();
+                        Toast.makeText(context,
+                                "Edit Data successfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(context, "Pastikan semua data sudah benar",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 

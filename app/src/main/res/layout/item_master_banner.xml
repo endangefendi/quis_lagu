@@ -73,7 +73,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                    <Button
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_toStartOf="@+id/btn_hapus"
+                    android:background="@drawable/bg_button_save"
+                    android:drawableEnd="@drawable/ic_baseline_edit"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="edit"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_10sdp" />
+
+                <Button
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_25sdp"
                         android:layout_alignParentEnd="true"
