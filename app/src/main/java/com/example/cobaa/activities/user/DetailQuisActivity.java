@@ -52,8 +52,6 @@ public class DetailQuisActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_quis);
 
-
-
         insial();
         if (getIntent()!=null){
             String jenis_soal = getIntent().getStringExtra("jenis_soal");
@@ -71,56 +69,48 @@ public class DetailQuisActivity extends AppCompatActivity {
         btnAnswerA.setOnClickListener(view -> {
             progressDialog.show();
             if (btnAnswerA.getText().toString().equals(jawab)) {
+                popUPJawabanBenarsalah("benar");
                 no++;
                 hasil_jawaban++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }else {
+                popUPJawabanBenarsalah("salah");
                 no++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerB.setOnClickListener(view -> {
             progressDialog.show();
             if (btnAnswerB.getText().toString().equals(jawab)) {
+                popUPJawabanBenarsalah("benar");
                 no++;
                 hasil_jawaban++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );;
             }else {
+                popUPJawabanBenarsalah("salah");
                 no++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerC.setOnClickListener(view -> {
             progressDialog.show();
             if (btnAnswerC.getText().toString().equals(jawab)) {
+                popUPJawabanBenarsalah("benar");
                 no++;
                 hasil_jawaban++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }else {
+                popUPJawabanBenarsalah("salah");
                 no++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
         btnAnswerD.setOnClickListener(view -> {
             progressDialog.show();
             if (btnAnswerD.getText().toString().equals(jawab)) {
+                popUPJawabanBenarsalah("benar");
                 no++;
                 hasil_jawaban++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }else {
+                popUPJawabanBenarsalah("salah");
                 no++;
-                updateQuestion(list.size());
-                tvScore.setText("Soal : "+no + " / 10" );
             }
         });
 
@@ -136,6 +126,46 @@ public class DetailQuisActivity extends AppCompatActivity {
 
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void popUPJawabanBenarsalah( String jawaban_dipliih) {
+        stopAudio();
+        final Dialog dialog = new Dialog(DetailQuisActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_info);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        TextView tvInfo = dialog.findViewById(R.id.tvInfo);
+        Button btnExit = dialog.findViewById(R.id.btnExit);
+        Button btnNewGame = dialog.findViewById(R.id.btnNewGame);
+        ImageView ivIndicator = dialog.findViewById(R.id.ivIndicator);
+
+        btnNewGame.setVisibility(View.GONE);
+        btnExit.setText("OK");
+        btnExit.setBackground(getDrawable(R.drawable.bg_button_save));
+        btnExit.setTextColor(getResources().getColor(R.color.ColorWhite));
+
+        if (jawaban_dipliih.equalsIgnoreCase("benar")) {
+            tvInfo.setText("Horeee.. Jawaban kamu benar.");
+            ivIndicator.setImageResource(R.drawable.ic_smile);
+        }else if (jawaban_dipliih.equalsIgnoreCase("salah")){
+            ivIndicator.setImageResource(R.drawable.ic_sad);
+            tvInfo.setText("Yaaaah.. Jawaban kamu salah.");
+        }
+        btnExit.setOnClickListener(v -> {
+            updateQuestion(list.size());
+            tvScore.setText("Soal : "+no + " / 10" );
+            dialog.dismiss();
+            stopAudio();
+        });
+        btnNewGame.setOnClickListener(v -> {
+            dialog.dismiss();
+            stopAudio();
+        });
+
+        dialog.show();
     }
 
     private boolean isPlaying = false;
@@ -156,6 +186,7 @@ public class DetailQuisActivity extends AppCompatActivity {
             btnStop.setVisibility(View.GONE);
         });
     }
+
     private ArrayList<SoalModel> list = new ArrayList<>();
     private void getSoal(String jenis_soal, String map) {
         list.clear();
@@ -172,7 +203,6 @@ public class DetailQuisActivity extends AppCompatActivity {
                     }
                 }
 
-                Log.e("list.size()", "" + (list.size()));
                 Log.e("list.size()", "" + (list.size()));
                 if (list.size()<10){
                     munculPopup();
@@ -232,8 +262,6 @@ public class DetailQuisActivity extends AppCompatActivity {
             Log.e("jawab", "jawab " + jawab);
             progressDialog.dismiss();
         }
-//        }
-//        initAudio();
     }
 
 
@@ -270,13 +298,13 @@ public class DetailQuisActivity extends AppCompatActivity {
         Button btnNewGame = dialog.findViewById(R.id.btnNewGame);
         ImageView ivIndicator = dialog.findViewById(R.id.ivIndicator);
 
-        if (hasil_jawaban>7) {
+        if (hasil_jawaban>7 && hasil_jawaban<=10) {
             tvInfo.setText("Selesai !, Kamu mendapat " + hasil_jawaban+".");
             ivIndicator.setImageResource(R.drawable.ic_smile);
-        } if (hasil_jawaban>=4 && hasil_jawaban<=7){
+        } else if (hasil_jawaban>=4 && hasil_jawaban<=7){
             ivIndicator.setImageResource(R.drawable.ic_confused);
             tvInfo.setText("Permainan selesai !, Poin kamu " + hasil_jawaban+".");
-        }else{
+        }else if (hasil_jawaban<4){
             ivIndicator.setImageResource(R.drawable.ic_sad);
             tvInfo.setText("Yaaaah... Poin kamu " + hasil_jawaban+".");
         }
@@ -288,9 +316,6 @@ public class DetailQuisActivity extends AppCompatActivity {
         btnNewGame.setOnClickListener(v -> {
             dialog.dismiss();
             recreate();
-//            Intent intent = new Intent(DetailQuisActivity.this, StartGameActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
         });
 
         dialog.show();
