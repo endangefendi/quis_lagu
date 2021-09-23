@@ -34,7 +34,7 @@
             android:layout_toStartOf="@+id/iv_add"
             android:layout_toEndOf="@+id/iv_back"
             android:fontFamily="@font/quicksand_bold"
-            android:text="Edit Soal Random"
+            android:text="Edit Data Soal"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
         <ImageView
@@ -67,40 +67,41 @@
             android:padding="@dimen/_10sdp">
 
             <LinearLayout
-                android:id="@+id/frame_player"
-                android:layout_width="wrap_content"
+                android:id="@+id/frame_lagu"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/_25sdp"
-                android:gravity="center"
-                android:background="@drawable/border_linear"
-                android:orientation="horizontal"
-                >
+                android:weightSum="3"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:textColorHint="#55000000"
+                    android:backgroundTint="#55000000"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
 
+                    <EditText
+                        android:id="@+id/txt_lagu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:backgroundTint="#55000000"
+                        android:hint="Judul Lagu"
+                        android:enabled="false"
+                        android:inputType="textPersonName"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#000" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <ImageView
-                    android:id="@+id/btnStart"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:src="@drawable/ic_play_button"
-                    app:tint="#FFF"
-                    android:layout_gravity="center" />
-
-                <ImageView
-                    android:id="@+id/btnStop"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:src="@drawable/ic_stop"
-                    app:tint="#FFF"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
-
+                    android:id="@+id/_lagu"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_arrow_drop"
+                    />
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_9sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:text="*audio tidak dapat di rubah"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:textColorHint="#55000000"
@@ -215,6 +216,81 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="#000" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/frame_tipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:textColorHint="#55000000"
+                    android:backgroundTint="#55000000"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_tipe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:backgroundTint="#55000000"
+                        android:hint="Tipe Soal"
+                        android:enabled="false"
+                        android:inputType="textPersonName"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#000" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <ImageView
+                    android:id="@+id/_tipe"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_arrow_drop"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/frame_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:visibility="visible"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:textColorHint="#55000000"
+                    android:backgroundTint="#55000000"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_daerah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:backgroundTint="#55000000"
+                        android:hint="Asal daerah"
+                        android:enabled="false"
+                        android:inputType="textPersonName"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#000" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <ImageView
+                    android:id="@+id/_daerah"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_arrow_drop"
+                    />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/frame_edit"

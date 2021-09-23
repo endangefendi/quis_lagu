@@ -3,10 +3,7 @@ package com.example.cobaa.activities.admin;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +23,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.cobaa.R;
+import com.example.cobaa.adapter.AdapterLagu;
 import com.example.cobaa.adapter.DaerahAdapter;
+import com.example.cobaa.adapter.TipeAdapter;
+import com.example.cobaa.models.LaguModel;
 import com.example.cobaa.models.PulauModel;
 import com.example.cobaa.models.SoalModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,28 +35,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TambahSoalMapActivity extends AppCompatActivity {
     private final String TAG= "TambahSoalMapActivity";
 
-    TextView name_file;
     TextView ket;
+    String idLagu = "";
+    String tipe = "";
+    String daerah = "";
 
-    String path = null;
-
-    private final FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-    private final StorageReference storageReference = firebaseStorage.getReference();
     private ProgressDialog progressDialog;
 
-    EditText txt_soal, txt_jawaban1, txt_jawaban2, txt_jawaban3, txt_jawaban4, txt_jawaban_benar, txt_daerah;
-    ImageView _daerah;
+    EditText txt_soal, txt_jawaban1, txt_jawaban2, txt_jawaban3, txt_jawaban4, txt_jawaban_benar, txt_daerah, txt_lagu, txt_tipe;
+    ImageView _daerah, _tipe, _lagu;
+
+    LinearLayout frame_map, frame_lagu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +60,6 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tambah_soal_map);
         checkAndRequestPermissions();
 
-        name_file = findViewById(R.id.name_file);
-        if (name_file.getText().toString().trim().equalsIgnoreCase("")) {
-            name_file.setVisibility(View.GONE);
-        } else {
-            name_file.setVisibility(View.VISIBLE);
-        }
-        LinearLayout klik = findViewById(R.id.ln_add);
-        klik.setOnClickListener(v -> showFileChooser());
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(v -> finish());
 
@@ -84,8 +72,17 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         txt_jawaban4 = findViewById(R.id.txt_jawaban4);
         txt_jawaban_benar = findViewById(R.id.txt_jawaban_benar);
         txt_daerah = findViewById(R.id.txt_daerah);
+        txt_tipe = findViewById(R.id.txt_tipe);
+        txt_lagu = findViewById(R.id.txt_lagu);
+        frame_map = findViewById(R.id.frame_map);
+        frame_lagu = findViewById(R.id.frame_lagu);
+        _tipe = findViewById(R.id._tipe);
+        _lagu = findViewById(R.id._lagu);
         _daerah = findViewById(R.id._daerah);
         _daerah.setOnClickListener(v -> popupdaerah(txt_daerah));
+        _tipe.setOnClickListener(v -> popuptipe(txt_tipe));
+        _lagu.setOnClickListener(v -> popLagu(txt_lagu));
+
 
         Button btn_save = findViewById(R.id.btn_add);
         btn_save.setOnClickListener(v -> validasi());
@@ -95,6 +92,61 @@ public class TambahSoalMapActivity extends AppCompatActivity {
 
         Button btn_cancel = findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(v -> batal());
+    }
+
+
+    private final List<String> listTipe = new ArrayList<>();
+    TipeAdapter adapter_tipe;
+
+    private void popuptipe (final EditText editText) {
+        AlertDialog.Builder alert;
+        AlertDialog ad;
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        assert inflater != null;
+        View alertLayout = inflater.inflate(R.layout.dialog_daerah, null);
+
+        alert = new AlertDialog.Builder(this);
+        alert.setTitle("Pilih Tipe Soal ");
+        alert.setIcon(R.drawable.ic_logo);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+
+        ad = alert.show();
+
+        ListView mListViewnya = alertLayout.findViewById(R.id.listItem);
+
+        listTipe.clear();
+
+        mListViewnya.setClickable(true);
+
+        mListViewnya.setOnItemClickListener((adapterView, view, i, l) -> {
+            ad.dismiss();
+            editText.setError(null);
+            TextView textView = view.findViewById(R.id.tv_daerah);
+            tipe = textView.getText().toString().trim();
+            editText.setText(textView.getText());
+            if (editText.getText().toString().trim().equalsIgnoreCase("Tidak Acak")){
+                frame_map.setVisibility(View.VISIBLE);
+            }else {
+                frame_map.setVisibility(View.GONE);
+                daerah = "";
+            }
+        });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sedang menyiapkan..");
+        progressDialog.show();
+        progressDialog.dismiss();
+
+        listTipe.add("Tidak Acak");
+        listTipe.add("Acak");
+        adapter_tipe = new TipeAdapter(this, listTipe);
+
+        mListViewnya.setAdapter(adapter_tipe);
+
+        adapter_tipe.setList(listTipe);
+
     }
 
     private final List<PulauModel> listDaerah = new ArrayList<>();
@@ -130,6 +182,7 @@ public class TambahSoalMapActivity extends AppCompatActivity {
             ad.dismiss();
             editText.setError(null);
             editText.setText(cn.getName_pulau());
+            daerah = cn.getName_pulau();
         });
 
         progressDialog = new ProgressDialog(this);
@@ -164,42 +217,75 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         });
     }
 
-    private void showFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+    private final List<LaguModel> listLagu = new ArrayList<>();
+    private ListView mListViewLagu;
+    AdapterLagu adapter_lagu;
 
-        try {
-            startActivityIfNeeded(
-                    Intent.createChooser(intent, "Select a File to Upload"),
-                    0);
-        } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Silahkan install File Manager.",
-                    Toast.LENGTH_SHORT).show();
-        }
+    private void popLagu (final EditText editText) {
+        AlertDialog.Builder alert;
+        AlertDialog ad;
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        assert inflater != null;
+        View alertLayout = inflater.inflate(R.layout.dialog_daerah, null);
+
+        alert = new AlertDialog.Builder(this);
+        alert.setTitle("Pilih Lagu ");
+        alert.setIcon(R.drawable.ic_logo);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+
+        ad = alert.show();
+
+        mListViewLagu = alertLayout.findViewById(R.id.listItem);
+
+        listLagu.clear();
+        adapter_lagu = new AdapterLagu(this, listLagu);
+
+        mListViewLagu.setClickable(true);
+
+        mListViewLagu.setOnItemClickListener((adapterView, view, i, l) -> {
+            Object o = mListViewLagu.getItemAtPosition(i);
+            LaguModel cn = (LaguModel) o;
+            ad.dismiss();
+            editText.setError(null);
+            editText.setText(cn.getNama());
+            idLagu = cn.getId();
+        });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sedang menyiapkan..");
+        progressDialog.show();
+
+        getLagu();
+
     }
 
-    public static String getPath(Context context, Uri uri) throws URISyntaxException {
-        if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = {"_data"};
-            Cursor cursor = null;
 
-            try {
-                cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
+    private void getLagu() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Lagu");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listLagu.clear();
+                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
+                    LaguModel p = dataSnapshot1.getValue(LaguModel.class);
+                    listLagu.add(p);
                 }
-            } catch (Exception e) {
-                // Eat it
+                mListViewLagu.setAdapter(adapter_lagu);
+                adapter_lagu.setList(listLagu);
+                progressDialog.dismiss();
             }
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
 
-        return null;
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "databaseError : " + databaseError.getMessage());
+
+                Toast.makeText(TambahSoalMapActivity.this, "Opsss.... Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     private void clear() {
         txt_soal.setText("");
@@ -208,7 +294,6 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         txt_jawaban2.setText("");
         txt_jawaban3.setText("");
         txt_jawaban4.setText("");
-        path = null;
     }
 
     private void batal() {
@@ -218,7 +303,6 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         txt_jawaban2.setText("");
         txt_jawaban3.setText("");
         txt_jawaban4.setText("");
-        path = null;
         finish();
     }
 
@@ -229,7 +313,6 @@ public class TambahSoalMapActivity extends AppCompatActivity {
         String jawaban2 = txt_jawaban2.getText().toString().trim();
         String jawaban3 = txt_jawaban3.getText().toString().trim();
         String jawaban4 = txt_jawaban4.getText().toString().trim();
-        String daerah = txt_daerah.getText().toString().trim();
 
         if(soal.isEmpty() && jawaban_benar.isEmpty() && jawaban1.isEmpty() && jawaban2.isEmpty() && jawaban3.isEmpty()
                     && jawaban4.isEmpty()){
@@ -251,149 +334,50 @@ public class TambahSoalMapActivity extends AppCompatActivity {
             txt_jawaban1.setError( "Pilihan Jawaban 1 tidak boleh kosong");
             return;
         }
+
         if(jawaban2.isEmpty()){
             txt_jawaban2.setError( "Pilihan Jawaban 2 tidak boleh kosong");
             return;
         }
+
         if(jawaban3.isEmpty()){
             txt_jawaban3.setError( "Pilihan Jawaban 3 tidak boleh kosong");
             return;
         }
+
         if(jawaban4.isEmpty()){
             txt_jawaban4.setError( "Pilihan Jawaban 4 tidak boleh kosong");
             return;
         }
 
-        if(daerah.isEmpty()){
-            txt_daerah.setError( "Asal daerah 4 tidak boleh kosong");
+        if (idLagu.equals("")){
+            txt_lagu.setError( "Lagu boleh kosong");
             return;
         }
 
-        saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4, daerah);
+        if (tipe.equals("")){
+            txt_lagu.setError( "Tipe Lagu boleh kosong");
+            return;
+        }
+
+        saving(soal, jawaban_benar, jawaban1, jawaban2, jawaban3, jawaban4);
     }
 
 
-    Uri uri;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 0:
-                if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
-                    uri = data.getData();
-                    Log.e("", "File Uri: " + uri.toString());
-                    // Get the path
-                    try {
+    private void saving( String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4) {
+        if (txt_tipe.getText().toString().trim().equalsIgnoreCase("Tidak Acak") &&
+                txt_daerah.getText().toString().trim().equalsIgnoreCase("")){
+            txt_daerah.setError( "Daerah tidak boleh kosong");
+        }else {
+            String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
+            SoalModel upload = new SoalModel(id, jawaban_benar, tipe, idLagu,
+                    daerah, jawaban1, jawaban2, jawaban3, jawaban4, soal);
+            FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
 
-//                        path = getPath(this, uri);
-                        path = uri.toString();
-                        Log.e("onActivityResult", "File Path: " + path);
-//                        os 9 E/onActivityResult: File Path: content://media/external/audio/media/2493
-//                        os 11 E/onActivityResult: File Path: content://com.android.externalstorage.documents/document/primary%3Aquis%20lagu%2Fanakkambing.mp3
-                        String filename = uri.getLastPathSegment();
-                        String extension = path.substring(path.lastIndexOf(".") + 1);
-                        if (!extension.equalsIgnoreCase("mp3")) {
-                            ket.setText("File tidak didukung");
-                            ket.setTextColor(getResources().getColor(R.color.colorPrimary));
-                            name_file.setText("FIle Name: " + filename.substring(filename.lastIndexOf("/") + 1));
-                            name_file.setVisibility(View.VISIBLE);
-                        }
-
-                        if (extension.equalsIgnoreCase("mp3")) {
-                            ket.setText("Input audio");
-                            ket.setTextColor(getResources().getColor(R.color.abu));
-                            name_file.setText("FIle Name: " + filename.substring(filename.lastIndexOf("/") + 1));
-                            name_file.setVisibility(View.VISIBLE);
-                        }
-
-                        if (path.contains("audio")) {
-                            //handling os <9 and audio
-                            String lokasi = getPath(this, uri);
-                            ket.setText("Input audio");
-                            ket.setTextColor(getResources().getColor(R.color.abu));
-                            name_file.setText("FIle Name: " + lokasi.substring(lokasi.lastIndexOf("/") + 1));
-                            name_file.setVisibility(View.VISIBLE);
-                        }
-
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
-                }
-                break;
+            Toast.makeText(TambahSoalMapActivity.this,
+                    "Data berhasil disimpan.", Toast.LENGTH_SHORT).show();
+            finish();
         }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void saving( String soal, String jawaban_benar, String jawaban1, String jawaban2, String jawaban3, String jawaban4, String daerah) {
-        if (path != null && uri != null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Menyimpan Data");
-            progressDialog.show();
-            Log.e("toString", uri.toString());
-            if (path.contains("audio")) {
-                //handling os <9 and audio
-                try {
-                    path = getPath(this, uri);
-                    Uri file = Uri.fromFile(new File(path));
-                    final StorageReference storageReferences = storageReference.child("lagu/" + file.getLastPathSegment());
-                    storageReferences.putFile(file)
-                            .addOnSuccessListener(taskSnapshot -> storageReferences.getDownloadUrl().addOnSuccessListener(uri -> {
-                                progressDialog.dismiss();
-                                String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
-                                SoalModel upload = new SoalModel(id, jawaban_benar, "map", String.valueOf(uri),
-                                        daerah, jawaban1, jawaban2, jawaban3, jawaban4, soal);
-                                FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
-
-                                Toast.makeText(TambahSoalMapActivity.this,
-                                        "Data berhasil disimpan.", Toast.LENGTH_SHORT).show();
-                                finish();
-                            })).addOnFailureListener(e -> {
-                        progressDialog.dismiss();
-                        Log.e("addOnFailureListener", e.getMessage());
-                        Toast.makeText(TambahSoalMapActivity.this, "Gagal Menyimpan Data",
-                                Toast.LENGTH_SHORT).show();
-                    }).addOnProgressListener(taskSnapshot -> {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
-                                taskSnapshot.getTotalByteCount();
-                        progressDialog.setMessage("Proses " + ((int) progress) + "%...");
-                    });
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                final StorageReference storageReferences = storageReference.child("lagu/" +
-                        uri.getLastPathSegment() );
-                storageReferences.putFile(uri)
-                        .addOnSuccessListener(taskSnapshot -> storageReferences.getDownloadUrl().addOnSuccessListener(uri -> {
-                            progressDialog.dismiss();
-                            String id = FirebaseDatabase.getInstance().getReference("soal").push().getKey();
-                            SoalModel upload = new SoalModel(id, jawaban_benar, "map", String.valueOf(uri),
-                                    daerah, jawaban1, jawaban2, jawaban3, jawaban4, soal);
-                            FirebaseDatabase.getInstance().getReference("soal").child(id).setValue(upload);
-
-                            Toast.makeText(TambahSoalMapActivity.this,
-                                    "Data berhasil disimpan.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        })).addOnFailureListener(e -> {
-                    progressDialog.dismiss();
-                    Log.e("addOnFailureListener", e.getMessage());
-                    Toast.makeText(TambahSoalMapActivity.this, "Gagal Menyimpan Data",
-                            Toast.LENGTH_SHORT).show();
-                }).addOnProgressListener(taskSnapshot -> {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) /
-                            taskSnapshot.getTotalByteCount();
-                    progressDialog.setMessage("Proses " + ((int) progress) + "%...");
-                });
-            }
-
-        } else {
-            Toast.makeText(this, "Pastikan semua data sudah benar",
-                    Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     private void checkAndRequestPermissions() {

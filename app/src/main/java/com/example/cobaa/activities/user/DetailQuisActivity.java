@@ -172,19 +172,19 @@ public class DetailQuisActivity extends AppCompatActivity {
     private void play_audio(final String audio) {
         try {
             mp.setDataSource(audio);
+            mp.prepareAsync();
+            mp.setOnPreparedListener(MediaPlayer::start);
+            mp.setOnCompletionListener(mediaPlayer -> {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                isPlaying = false;
+                btnStart.setVisibility(View.VISIBLE);
+                btnStop.setVisibility(View.GONE);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        mp.prepareAsync();
-        mp.setOnPreparedListener(MediaPlayer::start);
-        mp.setOnCompletionListener(mediaPlayer -> {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            isPlaying = false;
-            btnStart.setVisibility(View.VISIBLE);
-            btnStop.setVisibility(View.GONE);
-        });
     }
 
     private ArrayList<SoalModel> list = new ArrayList<>();
@@ -256,8 +256,38 @@ public class DetailQuisActivity extends AppCompatActivity {
             btnAnswerC.setText(list.get(randomAngka-1).getPilihan3().trim());
             btnAnswerD.setText(list.get(randomAngka-1).getPilihan4().trim());
             jawab = list.get(randomAngka-1).getJawaban().trim();
-            lagu = list.get(randomAngka-1).getLagu();
 
+
+            if (!lagu.contains("https://firebasestorage.googleapis.com")){
+                final String id_lagu = list.get(randomAngka-1).getLagu();
+
+                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Lagu");
+                try {
+                    ref.orderByChild("id").equalTo(id_lagu).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // dataSnapshot is the "issue" node with all children with id 0
+                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                                    lagu = childSnapshot.child("url").getValue().toString();
+                                    Log.e("lagu", lagu);
+                                }
+                            }else{
+                                lagu = list.get(randomAngka-1).getLagu();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                lagu = list.get(randomAngka-1).getLagu();
+            }
             Log.e("int", "randomAngka " + (randomAngka-1));
             Log.e("jawab", "jawab " + jawab);
             progressDialog.dismiss();

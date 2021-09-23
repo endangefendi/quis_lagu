@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="@dimen/_25sdp"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
         android:gravity="center"
         android:background="@drawable/border_linear"
         android:orientation="horizontal"
@@ -42,69 +44,86 @@
         android:id="@+id/frame_soal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/frame_player"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:layout_toEndOf="@+id/frame_player"
         android:background="@drawable/bg_rounded_white"
         android:orientation="vertical"
-        android:layout_margin="@dimen/_10sdp"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/_5sdp"
-        >
+        android:padding="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/tv_soal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Soal:"
-            android:textSize="@dimen/_13sdp"
-            android:fontFamily="@font/quicksand_bold"
             android:layout_marginTop="@dimen/_5sdp"
-            />
-
-        <TextView
-            android:id="@+id/tv_question"
-            android:layout_below="@+id/tv_soal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/quicksand_reguler"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12sdp"
-            android:text="@string/app_name" />
-
-        <TextView
-            android:id="@+id/tv_1"
-            android:layout_below="@+id/tv_question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_bold"
-            android:textStyle="bold"
-            android:textSize="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Tipe Soal:" />
+            android:text="Judul Lagu:"
+            android:textSize="@dimen/_13sdp" />
 
         <TextView
-            android:id="@+id/tv_type"
-            android:layout_below="@+id/tv_1"
+            android:id="@+id/tv_lagu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_soal"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/quicksand_reguler"
-            android:textStyle="bold"
+            android:text="@string/app_name"
             android:textSize="@dimen/_12sdp"
-            android:text="@string/app_name" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/nomor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_alignParentEnd="true"
             android:background="@drawable/bg_bulat"
             android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
             android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_9sdp"
             android:text="1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_9sdp" />
 
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frame_player"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_toStartOf="@+id/btn_hapus"
+            android:background="@drawable/bg_button_save"
+            android:drawableEnd="@drawable/ic_baseline_edit"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:text="edit"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/btn_hapus"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@drawable/bg_button_delete"
+            android:drawableEnd="@drawable/ic_delete"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:text="hapus"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_10sdp" />
+
+    </RelativeLayout>
 </RelativeLayout>

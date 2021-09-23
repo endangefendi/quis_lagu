@@ -58,7 +58,7 @@ public class UserPulauAdapter extends  RecyclerView.Adapter<UserPulauAdapter.Vie
         holder.name_banner.setText(list.get(position).getName_pulau());
         holder.banner.setOnClickListener(view -> {
             Intent intent = new Intent(context,  DetailQuisActivity.class);
-            intent.putExtra("jenis_soal", "map");
+            intent.putExtra("jenis_soal", "Tidak Acak");
             intent.putExtra("map", list.get(position).getName_pulau().toLowerCase());
             intent.putExtra("title", list.get(position).getName_pulau().toLowerCase());
 

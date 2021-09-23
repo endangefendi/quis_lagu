@@ -34,9 +34,6 @@ public class MasterDataSoalActivity extends AppCompatActivity {
     private MediaPlayer mp;
     private SoalAdapter adapter;
 
-    private String key_soal;
-    private String jenis_soal;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,44 +45,26 @@ public class MasterDataSoalActivity extends AppCompatActivity {
 
         TextView tv_title = findViewById(R.id.tv_title);
 
-        final Bundle bun = this.getIntent().getExtras();
-        if (bun != null) {
-            key_soal = bun.getString("key_menu");
-            tv_title.setText(key_soal);
-        }
-
-        if (key_soal.toLowerCase().contains("tidak acak")) {
-            jenis_soal = "map";
-        } else if (key_soal.toLowerCase().contains("acak")) {
-            jenis_soal = "random";
-        }
 
         ImageView add = findViewById(R.id.iv_add);
         add.setOnClickListener(view -> {
-            if (jenis_soal == "random") {
-                mp.stop();
-                mp.reset();
-                startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalRandomActivity.class));
-            } else {
-                mp.stop();
-                mp.reset();
-                startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalMapActivity.class));
-
-            }
+            mp.stop();
+            mp.reset();
+            startActivity(new Intent(MasterDataSoalActivity.this, TambahSoalMapActivity.class));
         });
 
         recyclerView = findViewById(R.id.list_menu_item);
         list = new ArrayList<>();
         mp = new MediaPlayer();
 
-        adapter = new SoalAdapter(MasterDataSoalActivity.this, list, mp, key_soal);
+        adapter = new SoalAdapter(MasterDataSoalActivity.this, list, mp);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 MasterDataSoalActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         reference = FirebaseDatabase.getInstance().getReference("soal");
-        reference.orderByChild("jenis_soal").equalTo(jenis_soal).addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();

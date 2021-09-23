@@ -1,17 +1,21 @@
 package com.example.cobaa.adapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
-import com.example.cobaa.activities.admin.EditSoalMapActivity;
-import com.example.cobaa.activities.admin.EditSoalRandomActivity;
-import com.example.cobaa.models.SoalModel;
+import com.example.cobaa.models.LaguModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +33,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
+public class LaguAdapter extends  RecyclerView.Adapter<LaguAdapter.ViewHolder> {
     private final Context context;
-    private final ArrayList<SoalModel> list;
-
+    private final ArrayList<LaguModel> list;
     private final MediaPlayer mp;
     private boolean isPlaying;
+    private ProgressDialog progressDialog;
 
-    public SoalAdapter(Context context, ArrayList<SoalModel> list, MediaPlayer mp) {
+    public LaguAdapter(Context context, ArrayList<LaguModel> list, MediaPlayer mp) {
         this.context = context;
         this.list = list;
         this.mp = mp;
@@ -49,46 +51,43 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
 
         private final TextView tv_question;
         private final TextView nomor;
-        private final TextView tv_type;
         private final ImageView btnStart;
         private final ImageView btnStop;
-        private final RelativeLayout frame_soal;
+        private final Button btn_hapus;
+        private final Button btn_edit;
 
         public ViewHolder(View v) {
             super(v);
             nomor = v.findViewById(R.id.nomor);
-            tv_type = v.findViewById(R.id.tv_type);
-            tv_question = v.findViewById(R.id.tv_question);
+            tv_question = v.findViewById(R.id.tv_lagu);
             btnStart = v.findViewById(R.id.btnStart);
             btnStop = v.findViewById(R.id.btnStop);
-            frame_soal = v.findViewById(R.id.frame_soal);
+            btn_hapus = v.findViewById(R.id.btn_hapus);
+            btn_edit = v.findViewById(R.id.btn_edit);
         }
     }
 
     @NonNull
     @Override
-    public SoalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_master_soal, parent, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+    public LaguAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_master_lagu, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SoalAdapter.ViewHolder holder, final int position) {
-        holder.tv_question.setText(list.get(position).getSoal());
-        holder.tv_type.setText(list.get(position).getJenis_soal());
+    public void onBindViewHolder(@NonNull final LaguAdapter.ViewHolder holder, final int position) {
+        holder.tv_question.setText(list.get(position).getNama());
         holder.nomor.setText(String.valueOf(position + 1));
         holder.btnStart.setOnClickListener(view -> {
-            if (list.get(position).getLagu().contains("https://firebasestorage.googleapis.com")) {
+            if (list.get(position).getUrl().contains("https://firebasestorage.googleapis.com")) {
                 if (!isPlaying) {
-                    play_audio(list.get(position).getLagu(), holder);
+                    play_audio(list.get(position).getUrl(), holder);
                     isPlaying = true;
                     holder.btnStart.setVisibility(View.GONE);
                     holder.btnStop.setVisibility(View.VISIBLE);
                 }
             } else {
-//                Toast.makeText(context, "Opsss.... Lagu tidak dapat diputar", Toast.LENGTH_SHORT).show();
-                queryLagu(holder);
+                Toast.makeText(context, "Opsss.... Lagu tidak dapat diputar", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -102,87 +101,88 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
             }
         });
 
-        holder.frame_soal.setOnLongClickListener(view -> {
-            Hapus(holder);
-            return true;
-        });
-        holder.frame_soal.setOnClickListener(view -> {
-            Bundle bundle= new Bundle();
-            bundle.putString("id", list.get(position).getId());
-            bundle.putString("jawaban", list.get(position).getJawaban());
-            bundle.putString("jenis_soal", list.get(position).getJenis_soal());
-            bundle.putString("lagu", list.get(position).getLagu());
-            bundle.putString("map", list.get(position).getMap());
-            bundle.putString("pilihan1", list.get(position).getPilihan1());
-            bundle.putString("pilihan2", list.get(position).getPilihan2());
-            bundle.putString("pilihan3", list.get(position).getPilihan3());
-            bundle.putString("pilihan4", list.get(position).getPilihan4());
-            bundle.putString("soal", list.get(position).getSoal());
+        holder.btn_hapus.setOnClickListener(view -> Hapus(holder));
 
-            if (isPlaying) {
-                mp.stop();
-                mp.reset();
-                isPlaying = false;
-                holder.btnStart.setVisibility(View.VISIBLE);
-                holder.btnStop.setVisibility(View.GONE);
-                Intent intent = new Intent(holder.itemView.getContext(), EditSoalRandomActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            } else {
-                Intent intent = new Intent(holder.itemView.getContext(), EditSoalRandomActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+        holder.btn_edit.setOnClickListener(view -> Edit(holder));
+
+    }
+
+    private void Edit(ViewHolder holder) {
+        final String id = list.get(holder.getAdapterPosition()).getId();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_edit);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        EditText txt_nama = dialog.findViewById(R.id.txt_nama);
+        Button btnExit = dialog.findViewById(R.id.btnExit);
+        Button btnSimpan = dialog.findViewById(R.id.btnSimpan);
+        txt_nama.setText(list.get(holder.getAdapterPosition()).getNama());
+        btnExit.setOnClickListener(v ->
+            dialog.dismiss()
+        );
+
+        btnSimpan.setOnClickListener(v -> {
+            if (txt_nama.getText().toString().trim().equalsIgnoreCase("")){
+                txt_nama.setError("Nama Banner Tidak boleh kosong");
+            }else{
+                saving(id, txt_nama.getText().toString().trim());
+                dialog.dismiss();
             }
         });
+
+        dialog.show();
+
+
     }
 
 
-    private void queryLagu(ViewHolder holder) {
-        final String id_lagu = list.get(holder.getAdapterPosition()).getLagu();
+    private void saving(String id, String name_banner) {
+        if (id != null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Menyimpan Data");
+            progressDialog.show();
+            final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Lagu");
+            try {
+                ref.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ref.child(id).child("nama").setValue(name_banner);
 
-        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Lagu");
-        try {
-            ref.orderByChild("id").equalTo(id_lagu).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String lagu = "";
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot is the "issue" node with all children with id 0
-                        for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                            lagu = childSnapshot.child("url").getValue().toString();
-                            Log.e("lagu", lagu);
-                            if (!isPlaying) {
-                                play_audio(lagu, holder);
-                                isPlaying = true;
-                                holder.btnStart.setVisibility(View.GONE);
-                                holder.btnStop.setVisibility(View.VISIBLE);
-                            }
-                        }
+                        progressDialog.dismiss();
+                        Toast.makeText(context,
+                                "Edit Data successfully", Toast.LENGTH_SHORT).show();
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(context, "Pastikan semua data sudah benar",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void Hapus(ViewHolder holder) {
+
+    private void Hapus(LaguAdapter.ViewHolder holder) {
         final String id = list.get(holder.getAdapterPosition()).getId();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Yakin ingin menghapus soal ?")
+        builder.setMessage("Yakin ingin menghapus Lagu ini ?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, which) -> {
                     dialog.cancel();
                     ProgressDialog  progressDialog = ProgressDialog.show(context, "Please wait...",
                             "Processing...", true);
                     progressDialog.show();
-                    final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("soal");
+                    final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Lagu");
                     try {
                         ref.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -236,4 +236,5 @@ public class SoalAdapter extends  RecyclerView.Adapter<SoalAdapter.ViewHolder> {
         if (list != null) return list.size();
         return 0;
     }
+
 }

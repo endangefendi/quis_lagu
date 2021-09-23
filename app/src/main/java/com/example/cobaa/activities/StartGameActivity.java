@@ -50,7 +50,7 @@ public class StartGameActivity extends AppCompatActivity {
                             assert user != null;
                             Log.e("TAG", "signInAnonymously: "+user.getUid());
                             Intent intent = new Intent(StartGameActivity.this, DetailQuisActivity.class);
-                            intent.putExtra("jenis_soal","random");
+                            intent.putExtra("jenis_soal","Acak");
                             intent.putExtra("map","");
                             startActivity(intent);
                         } else {

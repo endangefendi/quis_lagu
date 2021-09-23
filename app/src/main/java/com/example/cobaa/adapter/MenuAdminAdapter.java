@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cobaa.R;
+import com.example.cobaa.activities.admin.AddLaguActivity;
 import com.example.cobaa.activities.admin.MasterBannerActivity;
 import com.example.cobaa.activities.admin.MasterDataPulauActivity;
 import com.example.cobaa.activities.admin.MasterDataSoalActivity;
+import com.example.cobaa.activities.admin.MasterLaguActivity;
 import com.example.cobaa.models.MenuModel;
 
 import java.util.ArrayList;
@@ -60,6 +62,12 @@ public class MenuAdminAdapter extends  RecyclerView.Adapter<MenuAdminAdapter.Vie
             }else if (list.get(position).getName_menu().toLowerCase().contains("banner")){
                 Bundle bundle= new Bundle();
                 Intent intent = new Intent(holder.itemView.getContext(), MasterBannerActivity.class);
+                bundle.putString("key_menu", list.get(position).getName_menu());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }else if (list.get(position).getName_menu().toLowerCase().contains("lagu")){
+                Bundle bundle= new Bundle();
+                Intent intent = new Intent(holder.itemView.getContext(), MasterLaguActivity.class);
                 bundle.putString("key_menu", list.get(position).getName_menu());
                 intent.putExtras(bundle);
                 context.startActivity(intent);

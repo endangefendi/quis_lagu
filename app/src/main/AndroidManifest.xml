@@ -12,72 +12,98 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.user.DetailQuisActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
+        <activity
+            android:name=".activities.admin.MasterLaguActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+
+        <activity
+            android:name=".activities.admin.AddLaguActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.user.QuisTidakAcakActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.TambahSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.EditSoalMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.EditSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.TambahSoalRandomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.MasterDataPulauActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.AddPulauActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.AddBannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.MasterBannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.MasterDataSoalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.DashboarAdminActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.admin.LoginAdminActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.StartGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.PanduanPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TopRed" />
+
         <activity
             android:name=".activities.SplashScreenAcitivity"
             android:screenOrientation="portrait"
